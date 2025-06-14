@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using RconSharp;
 using System.Diagnostics;
 using ZomboidRCON.Models;
@@ -10,6 +11,8 @@ namespace ZomboidRCON
     {
         private Server server;
         private Updator updator;
+        private bool isConnected = false;
+        private int refreshRate = 30000;
 
         public Main(RconClient clientConnection, string host, int port)
         {
@@ -19,7 +22,18 @@ namespace ZomboidRCON
         public Main()
         {
             InitializeComponent();
+            cmbRefreshRate.SelectedIndex = 1;
         }
+
+        private async void RefreshLoop()
+        {
+            while (isConnected)
+            {
+                RefreshPlayers();
+                await Task.Delay(refreshRate);
+            }
+        }
+
         private async void RefreshPlayers()
         {
             refreshBtn.Enabled = false;
@@ -27,14 +41,15 @@ namespace ZomboidRCON
             playersView.Items.Clear();
             List<Player> players = await server.GetPlayers();
             Debug.WriteLine(players.Count);
-            foreach(Player player in players)
+            foreach (Player player in players)
             {
 
-               ListViewItem item = playersView.Items.Add(player.Name);
+                ListViewItem item = playersView.Items.Add(player.Name);
                 item.ToolTipText = "Last known access level: " + player.accessLevel.ToString();
                 item.SubItems.Add(player.accessLevel.ToString());
-                if(player.isOnline)
-                item.Group = playersView.Groups[0];
+                item.SubItems.Add(player.GodmodeEnabled.ToString());
+                if (player.isOnline)
+                    item.Group = playersView.Groups[0];
                 else item.Group = playersView.Groups[1];
             }
             refreshBtn.Enabled = true;
@@ -43,13 +58,24 @@ namespace ZomboidRCON
 
         public void ResetConnection(RconClient clientConnection, string host, int port, string dbname)
         {
+            clientConnection.ConnectionClosed += ClientConnection_ConnectionClosed;
             server = new Server(clientConnection, host, port, dbname);
-            RefreshPlayers();
+            isConnected = true;
+            //RefreshPlayers();
+            RefreshLoop();
+            //server.DownloadHelp();
+        }
+
+        private void ClientConnection_ConnectionClosed()
+        {
+            isConnected = false;
+            MessageBox.Show(this, "Connection Closed!", "ZomboidRCON");
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
             UpdateCheck();
+            //List<PlayerPerks> pp = server.PlayerPerkList();
         }
 
         private void Main_Shown(object sender, EventArgs e)
@@ -100,7 +126,7 @@ namespace ZomboidRCON
             {
                 if (player.Name == name) return player;
             }
-            return new Player { Name = name};
+            return new Player { Name = name };
         }
         private async void addToWhitelistToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -165,7 +191,7 @@ namespace ZomboidRCON
 
         private async void teleportToPlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private async void enableToolStripMenuItem_Click(object sender, EventArgs e)
@@ -189,11 +215,25 @@ namespace ZomboidRCON
             vsm.Show();
         }
 
+        private async void spawnItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Player player = await GetPlayerByName(playersView.SelectedItems[0].Text);
+            HelperForms.ItemSpawnMenu ism = new HelperForms.ItemSpawnMenu(player, server);
+            ism.Show();
+        }
+
+        private async void banPlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Player player = await GetPlayerByName(playersView.SelectedItems[0].Text);
+            //HelperForms.BanPlayerForm bpf = new HelperForms.BanPlayerForm(player, server);
+            //bpf.Show();
+        }
+
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
             {
-                if(server != null)
+                if (server != null)
                     server.Disconnect();
             }
             catch (Exception ex)
@@ -237,6 +277,36 @@ namespace ZomboidRCON
             {
                 UpdateForm updateForm = new UpdateForm(updator, updateResult.Release);
                 updateForm.ShowDialog(this);
+            }
+        }
+
+        private async void addExp_Click(object sender, EventArgs e)
+        {
+            Player player = await GetPlayerByName(playersView.SelectedItems[0].Text);
+            HelperForms.AddExp ism = new HelperForms.AddExp(player, server);
+            ism.Show();
+            //await server.AddExperienceToPlayer(selectedPlayer, selectedPerk, xpAmount);
+            //List<PlayerPerks> pp = server.PlayerPerkList();
+        }
+
+        private void mapMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbRefreshRate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cmbRefreshRate.SelectedIndex)
+            {
+                case 0:
+                    refreshRate = 5000;
+                    break;
+                case 1:
+                    refreshRate = 30000;
+                    break;
+                case 2:
+                    refreshRate = 60000;
+                    break;
             }
         }
     }

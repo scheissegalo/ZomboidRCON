@@ -16,11 +16,14 @@ namespace ZomboidRCON.Models
         None,
         Unknown
     }
-    internal class Player
+    public class Player
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public bool isOnline { get; set; }
         public AccessLevel accessLevel { get; set; }
+        public string IP { get; set; }
+        public int SteamID { get; set; }
+        public bool GodmodeEnabled { get; set; }
     }
 }

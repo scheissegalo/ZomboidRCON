@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using ZomboidRCON.Models;
@@ -15,6 +16,7 @@ namespace ZomboidRCON.Wrapper
         private RconClient client;
         private string host;
         private int port;
+
         public Server(RconClient client, string host, int port)
         {
             this.client = client;
@@ -60,6 +62,24 @@ namespace ZomboidRCON.Wrapper
             }
             return dataManager.Players;
         }
+
+        public async void DownloadHelp()
+        {
+            using (StreamWriter writetext = new StreamWriter("commands-help.txt"))
+            {
+                try
+                {
+                    string response = await client.ExecuteCommandAsync("help");
+                    //MessageBox.Show(response, "ZomboidRCON");
+                    writetext.WriteLine(response);
+                }
+                catch (TaskCanceledException)
+                {
+                    MessageBox.Show("Unable to get help. Try reconnecting", "ZomboidRCON");
+                }
+
+            }
+        }
         public async void AddPlayerToWhiteList(Player player)
         {
             if (!player.isOnline)
@@ -87,6 +107,7 @@ namespace ZomboidRCON.Wrapper
             try
             {
                 string response = await client.ExecuteCommandAsync("godmod " + player.Name + (enable ? " -true" : " -false"));
+                player.GodmodeEnabled = enable;
                 MessageBox.Show(response, "ZomboidRCON");
             }
             catch (TaskCanceledException)
@@ -111,6 +132,37 @@ namespace ZomboidRCON.Wrapper
                 MessageBox.Show("Unable to kick player. Try reconnecting", "ZomboidRCON");
             }
         }
+
+        public async Task<bool> AddExperienceToPlayer(Player player, PerkName perkName, int xpAmount)
+        {
+            if (!player.isOnline)
+            {
+                MessageBox.Show("Player is offline, command cannot be executed", "ZomboidRCON");
+                return false;
+            }
+
+            try
+            {
+                // Convert enum to string - you can use either approach:
+                // Option 1: Direct toString()
+                string command = $"addxp \"{player.Name}\" {perkName}={xpAmount}";
+
+                // Option 2: Using extension method
+                // string command = $"addxp \"{player.Name}\" {perkName.ToCommandString()}={xpAmount}";
+
+                string response = await client.ExecuteCommandAsync(command);
+                MessageBox.Show(response, "ZomboidRCON");
+                return true;
+            }
+            catch (TaskCanceledException)
+            {
+                MessageBox.Show("Unable to add experience to player. Try reconnecting", "ZomboidRCON");
+                return false;
+            }
+        }
+
+
+
         public async Task<bool> TeleportToPlayer(Player player, Player toPlayer)
         {
             if (!player.isOnline || !toPlayer.isOnline)
@@ -187,6 +239,30 @@ namespace ZomboidRCON.Wrapper
                 return false;
             }
         }
+        public async Task<bool> GiveItemToPlayer(Player player, string itemID, int count = 1)
+        {
+            if (!player.isOnline)
+            {
+                MessageBox.Show("Player is offline, command cannot be executed", "ZomboidRCON");
+                return false;
+            }
+            try
+            {
+                string command = $"additem \"{player.Name}\" {itemID}";
+                if (count > 1)
+                {
+                    command += $" {count}";
+                }
+                string response = await client.ExecuteCommandAsync(command);
+                MessageBox.Show(response, "ZomboidRCON");
+                return true;
+            }
+            catch (TaskCanceledException)
+            {
+                MessageBox.Show("Unable to give item to player. Try reconnecting", "ZomboidRCON");
+                return false;
+            }
+        }
         public async void SetAccessLevel(Player player, AccessLevel accessLevel)
         {
             string access = "none";
@@ -244,5 +320,109 @@ namespace ZomboidRCON.Wrapper
         public List<Vehicle> Vehicles { get { return dataManager.Vehicles; } }
         public string Host { get { return host; } }
         public int Port { get { return port; } }
+        public async Task BanPlayer(Player player, bool banIP = false, string reason = "")
+        {
+            if (!player.isOnline)
+            {
+                MessageBox.Show("Player is not online!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string command = $"banuser \"{player.Name}\"";
+            if (banIP)
+            {
+                command += " -ip";
+            }
+            if (!string.IsNullOrWhiteSpace(reason))
+            {
+                command += $" -r \"{reason}\"";
+            }
+
+            try
+            {
+                string response = await ExecuteCommand(command);
+                MessageBox.Show($"Successfully banned {player.Name}!\nResponse: {response}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to ban {player.Name}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //public List<PlayerPerks> PlayerPerkList()
+        //{
+        //    List<PlayerPerks> PlayerPerkList = new List<PlayerPerks>();
+
+        //    PlayerPerkList.Add(new PlayerPerks
+        //    {
+        //        id = 0,
+        //        name = "Running",
+        //    });
+
+        //    PlayerPerkList.Add(new PlayerPerks
+        //    {
+        //        id = 1,
+        //        name = "Lightfooted",
+        //    });
+
+        //    PlayerPerkList.Add(new PlayerPerks
+        //    {
+        //        id = 2,
+        //        name = "Nimble",
+        //    });
+
+        //    return PlayerPerkList;
+        //}
+    }
+
+    //class PlayerPerks
+    //{
+    //    public int id;
+    //    public string name;
+    //    //public string Running = "Running";
+    //    //public string Lightfooted = "Lightfooted";
+    //    //public string Nimble = "Nimble";
+    //    //public string Sneaking = "Sneaking";
+    //    //public string Spear = "Spear";
+    //    //public string Maintenance = "Maintenance";
+    //    //public string Carpentry = "Carpentry";
+    //    //public string Carving = "Carving";
+    //    //public string Cooking = "Cooking";
+    //    //public string Electrical = "Electrical";
+    //    //public string Glassmaking = "Glassmaking";
+    //    //public string Knapping = "Knapping";
+    //    //public string Masonry = "Masonry";
+    //    //public string Metalworking = "Metalworking";
+    //    //public string Mechanics = "Mechanics";
+    //    //public string Pottery = "Pottery";
+    //}
+
+    public enum PerkName
+    {
+        Fitness,
+        Strength,
+        Sprinting,
+        Lightfooted,
+        Nimble,
+        Sneaking,
+        Axe,
+        Blunt,
+        SmallBlunt,
+        LongBlade,
+        SmallBlade,
+        Spear,
+        Maintenance,
+        Woodwork,
+        Cooking,
+        Farming,
+        FirstAid,
+        Electrical,
+        Metalworking,
+        Mechanics,
+        Tailoring,
+        Aiming,
+        Reloading,
+        Fishing,
+        Trapping
     }
 }
