@@ -9,7 +9,7 @@ namespace ZomboidRCON
 {
     internal class Constants
     {
-        public const string RepoPath = "kwmx/ZomboidRCON";
+        public const string RepoPath = "scheissegalo/ZomboidRCON";
         public const string Version = "1.0.4";
         public static string AssemblyVersionToSemver
         {

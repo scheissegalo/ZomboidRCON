@@ -142,7 +142,7 @@ public partial class MainWindow : Window
         {
             if (updator == null)
             {
-                updator = new UpdateSystem.Updator(Constants.RepoPath, Constants.AssemblyVersionToSemver, true, "ZomboidRCON.zip", "");
+                updator = new UpdateSystem.Updator(Constants.RepoPath, Constants.AssemblyVersionToSemver, true, OperatingSystem.IsWindows() ? "ZomboidRCON-win-x64.zip" : "ZomboidRCON-linux-x64.zip", "");
             }
             UpdateResult updateResult = await updator.CheckForUpdate();
             if (updateResult.UpdateStatus == UpdateStatus.UpdateNeeded && updateResult.Release != null)

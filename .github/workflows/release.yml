@@ -1,0 +1,53 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '[0-9]*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rid: [win-x64, linux-x64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish
+        run: dotnet publish ZomboidRCON/ZomboidRCON.csproj -r ${{ matrix.rid }} --self-contained -c Release -o publish/${{ matrix.rid }}
+
+      - name: Zip
+        run: cd publish/${{ matrix.rid }} && zip -r ../../ZomboidRCON-${{ matrix.rid }}.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZomboidRCON-${{ matrix.rid }}
+          path: ZomboidRCON-${{ matrix.rid }}.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ github.ref_name }} \
+            --title "ZomboidRCON ${{ github.ref_name }}" \
+            --generate-notes \
+            artifacts/ZomboidRCON-win-x64.zip \
+            artifacts/ZomboidRCON-linux-x64.zip
