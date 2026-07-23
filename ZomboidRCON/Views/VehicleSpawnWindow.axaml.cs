@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform.Storage;
+using ZomboidRCON.Helpers;
 using ZomboidRCON.Models;
 using ZomboidRCON.Wrapper;
 
@@ -57,15 +57,19 @@ public partial class VehicleSpawnWindow : Window
         if (i >= 0 && j >= 0 && i < vehicles.Count && vehicles[i].Variants != null && j < vehicles[i].Variants!.Length)
         {
             var variant = vehicles[i].Variants![j];
+            AppLog.Log("VehicleSpawn", $"Selected variant: VariantID={variant.VariantID}, isStock={variant.isStock}");
             if (variant.isStock)
             {
                 try
                 {
-                    var uri = new Uri($"avares://ZomboidRCON/Assets/Vehicles/{variant.VariantID}.png");
-                    VehicleImage.Source = new Bitmap(uri.LocalPath);
+                    var path = $"avares://ZomboidRCON/Assets/Vehicles/{variant.VariantID}.png";
+                    AppLog.Log("VehicleSpawn", $"Loading image from: {path}");
+                    VehicleImage.Source = new Bitmap(path);
+                    AppLog.Log("VehicleSpawn", $"Image loaded successfully, Source={VehicleImage.Source != null}");
                 }
-                catch
+                catch (Exception ex)
                 {
+                    AppLog.Log("VehicleSpawn", $"Image load FAILED: {ex}");
                     VehicleImage.Source = null;
                 }
             }
