@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.CreditsWindow"
+        Title="Credits"
+        Width="350" Height="200"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Icon="/Assets/Icons/icon.ico">
+
+    <StackPanel Margin="20" Spacing="8" HorizontalAlignment="Center">
+        <TextBlock Text="ZomboidRCON Admin Tool" FontSize="18" FontWeight="Bold"
+                   HorizontalAlignment="Center"/>
+        <TextBlock x:Name="VersionLbl" HorizontalAlignment="Center"/>
+        <TextBlock Text="" Margin="0,8"/>
+        <TextBlock Text="Created by:" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="Link1" Text="https://github.com/kwmx/ZomboidRCON"
+                   Classes="hyperlink" Cursor="Hand" HorizontalAlignment="Center"
+                   PointerPressed="OnLink1Click"/>
+        <TextBlock Text="" Margin="0,8"/>
+        <TextBlock Text="Powered by:" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="Link2" Text="RconSharp" Classes="hyperlink" Cursor="Hand"
+                   HorizontalAlignment="Center" PointerPressed="OnLink2Click"/>
+        <TextBlock x:Name="Link3" Text="LiteDB" Classes="hyperlink" Cursor="Hand"
+                   HorizontalAlignment="Center" PointerPressed="OnLink3Click"/>
+    </StackPanel>
+</Window>

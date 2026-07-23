@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.ItemSpawnWindow"
+        Title="Give an item"
+        Width="450" Height="200"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Icon="/Assets/Icons/icon.ico">
+
+    <Grid Margin="16" RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Item:" VerticalAlignment="Center" Margin="0,0,0,6"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ItemCombo" Margin="0,0,0,6"
+                  SelectionChanged="OnItemComboChanged"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Item ID:" VerticalAlignment="Center" Margin="0,0,0,6"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="ItemIDTxt" Margin="0,0,0,6"
+                 TextChanged="OnItemIDTxtChanged"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Count:" VerticalAlignment="Center" Margin="0,0,0,6"/>
+        <NumericUpDown Grid.Row="2" Grid.Column="1" x:Name="CountNumeric" Minimum="1" Maximum="100"
+                       Value="1" Margin="0,0,0,6"/>
+
+        <Button Grid.Row="3" Grid.ColumnSpan="2" x:Name="SpawnBtn" Content="Give Item"
+                IsEnabled="False" Height="30" Click="OnSpawnClick"/>
+    </Grid>
+</Window>

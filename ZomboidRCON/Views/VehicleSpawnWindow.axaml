@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.VehicleSpawnWindow"
+        Title="Spawn a vehicle"
+        Width="400" Height="350"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Icon="/Assets/Icons/icon.ico">
+
+    <StackPanel Margin="16" Spacing="8">
+        <TextBlock Text="Select Vehicle:" FontWeight="Bold"/>
+        <ComboBox x:Name="VehiclesCombo" SelectionChanged="OnVehiclesComboChanged"/>
+
+        <TextBlock Text="Select Variant:" FontWeight="Bold"/>
+        <ComboBox x:Name="VariantCombo" IsEnabled="False" SelectionChanged="OnVariantComboChanged"/>
+
+        <Image x:Name="VehicleImage" Height="120" Stretch="Uniform" Margin="0,8"/>
+
+        <Button x:Name="SpawnBtn" Content="Spawn" IsEnabled="False"
+                Height="30" Click="OnSpawnClick"/>
+    </StackPanel>
+</Window>

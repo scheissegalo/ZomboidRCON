@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.TeleportToPlayerWindow"
+        Title="Teleport to another player"
+        Width="400" Height="150"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Icon="/Assets/Icons/icon.ico">
+
+    <StackPanel Margin="16" Spacing="8">
+        <TextBlock x:Name="InfoLabel" Text="Teleport '%player_name%' to another player:" TextWrapping="Wrap"/>
+        <ComboBox x:Name="PlayersCombo" SelectionChanged="OnPlayersComboChanged"/>
+        <Button x:Name="TeleportBtn" Content="Teleport" IsEnabled="False"
+                Height="30" Click="OnTeleportClick"/>
+    </StackPanel>
+</Window>

@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.CommandConsoleWindow"
+        Title="Command Console"
+        Width="600" Height="400"
+        WindowStartupLocation="CenterOwner"
+        Icon="/Assets/Icons/icon.ico">
+
+    <DockPanel>
+        <!-- Bottom Input -->
+        <DockPanel DockPanel.Dock="Bottom" Margin="8,4,8,8">
+            <Button DockPanel.Dock="Right" x:Name="SendBtn" Content="Send"
+                    Width="70" IsEnabled="False" Click="OnSendClick" Margin="4,0,0,0"/>
+            <TextBox x:Name="CommandTxt" Watermark="Enter command..."
+                     KeyDown="OnCommandTxtKeyDown"
+                     TextChanged="OnCommandTxtChanged"/>
+        </DockPanel>
+
+        <!-- Output -->
+        <ScrollViewer x:Name="OutputScroll" Margin="8,8,8,0">
+            <TextBlock x:Name="OutputLog" TextWrapping="Wrap" FontFamily="monospace"/>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

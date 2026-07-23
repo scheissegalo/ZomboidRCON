@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.TeleportToCoordinatesWindow"
+        Title="Teleport to coordinates"
+        Width="350" Height="220"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Icon="/Assets/Icons/icon.ico">
+
+    <StackPanel Margin="16" Spacing="8">
+        <Grid ColumnDefinitions="60,*,40,*,40,*">
+            <TextBlock Grid.Column="0" Text="X:" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" x:Name="XTxt" TextChanged="OnCoordinateChanged"/>
+            <TextBlock Grid.Column="2" Text="Y:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+            <TextBox Grid.Column="3" x:Name="YTxt" TextChanged="OnCoordinateChanged"/>
+            <TextBlock Grid.Column="4" Text="Z:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+            <TextBox Grid.Column="5" x:Name="ZTxt" TextChanged="OnCoordinateChanged"/>
+        </Grid>
+
+        <TextBlock x:Name="TeleportPreviewLabel" Text="Please fill all required coordinate fields" TextWrapping="Wrap"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button x:Name="PreviewBtn" Content="Preview" IsEnabled="False"
+                    Width="80" Height="30" Click="OnPreviewClick"/>
+            <Button x:Name="TeleportBtn" Content="Teleport" IsEnabled="False"
+                    Width="80" Height="30" Click="OnTeleportClick"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
