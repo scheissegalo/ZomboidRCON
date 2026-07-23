@@ -324,6 +324,20 @@ public partial class MainWindow : Window
         cc.Show();
     }
 
+    private async void OnShowOptionsClick(object? sender, RoutedEventArgs e)
+    {
+        if (server == null) return;
+        string options = await server.ShowOptions();
+        await DialogHelper.ShowMessage(this, options, "Server Options");
+    }
+
+    private async void OnReloadOptionsClick(object? sender, RoutedEventArgs e)
+    {
+        if (server == null) return;
+        string result = await server.ReloadOptions();
+        await DialogHelper.ShowMessage(this, result, "Reload Options");
+    }
+
     private void OnMapClick(object? sender, RoutedEventArgs e)
     {
         CrossPlatformHelper.OpenUrl("https://map.projectzomboid.com/#collapseThree");
@@ -336,7 +350,7 @@ public partial class MainWindow : Window
 
     private void OnReportIssueClick(object? sender, RoutedEventArgs e)
     {
-        CrossPlatformHelper.OpenUrl("https://github.com/kwmx/ZomboidRCON/issues/new");
+        CrossPlatformHelper.OpenUrl("https://github.com/scheissegalo/ZomboidRCON/issues/new");
     }
 
     private void OnCreditsClick(object? sender, RoutedEventArgs e)
@@ -363,13 +377,9 @@ public partial class MainWindow : Window
 public class PlayerViewModel
 {
     public string Name { get; }
-    public string AccessLevelText { get; }
-    public string GodmodeText { get; }
 
     public PlayerViewModel(Player player)
     {
         Name = player.Name;
-        AccessLevelText = player.accessLevel.ToString();
-        GodmodeText = player.GodmodeEnabled.ToString();
     }
 }

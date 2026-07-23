@@ -13,10 +13,8 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Server Controls">
                 <MenuItem Header="_Command Console" Click="OnCommandConsoleClick"/>
-                <MenuItem Header="_Server Option" IsEnabled="False">
-                    <MenuItem Header="_View and change" IsEnabled="False"/>
-                    <MenuItem Header="_Reload" IsEnabled="False"/>
-                </MenuItem>
+                <MenuItem Header="Show _Options" Click="OnShowOptionsClick"/>
+                <MenuItem Header="_Reload Options" Click="OnReloadOptionsClick"/>
             </MenuItem>
             <MenuItem Header="_Database Tools" IsEnabled="False">
                 <MenuItem Header="_Create Items Pack" IsEnabled="False"/>
@@ -74,8 +72,6 @@
                   Margin="8,4,8,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Player Name" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Access Level" Binding="{Binding AccessLevelText}" Width="120"/>
-                <DataGridTextColumn Header="God" Binding="{Binding GodmodeText}" Width="60"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

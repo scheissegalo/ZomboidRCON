@@ -1,0 +1,369 @@
+Name,ID
+Axe,Base.Axe
+Hand Axe,Base.HandAxe
+Wood Axe,Base.WoodAxe
+Garden Axe,Base.GardenAxe
+Stone Axe,Base.AxeStone
+Firefighter Axe,Base.AxeFireDept
+Hunting Knife,Base.HuntingKnife
+Kitchen Knife,Base.KitchenKnife
+Butcher Knife,Base.ButterKnife
+Fleshing Tool,Base.FleshingTool
+Machete,Base.Machete
+Machete Blade,Base.MacheteBlade
+Saw,Base.Saw
+Hand Saw,Base.HandSaw
+Garden Saw,Base.GardenSaw
+Flint Knife,Base.FlintKnife
+Bone Knife,Base.BoneKnife
+Large Knife,Base.LargeKnife
+Small Knife,Base.SmallKnife
+Butcher Cleaver,Base.Cleaver
+Spear,Base.SpearCrafted
+Spear with Bread Knife,Base.SpearBreadKnife
+Spear with Kitchen Knife,Base.SpearKnife
+Spear with Machete,Base.SpearMachete
+Spear with Steak Knife,Base.SpearSteakKnife
+Spear with Stone,Base.SpearStone
+Spear with Hunting Knife,Base.SpearHunting
+Lead Pipe,Base.LeadPipe
+Plunger,Base.Plunger
+Pipe Wrench,Base.PipeWrench
+Wrench,Base.Wrench
+Club,Base.ClubHammer
+Ball Peen Hammer,Base.BallPeenHammer
+Hammer,Base.Hammer
+Stone Hammer,Base.HammerStone
+Claw Hammer,Base.HammerClaw
+Spiked Club,Base.ClubSpiked
+Baseball Bat,Base.BaseballBat
+Baseball Bat Nails,Base.BaseballBatNails
+Plank with Nails,Base.PlankNail
+Stick with Nails,Base.StickNail
+Cudgel,Base.Cudgel
+Cudgel with Nails,Base.CudgelNails
+Cudgel with Spike,Base.CudgelSpiked
+Tree Branch,Base.TreeBranch
+Branch,Base.Branch
+Long Stick,Base.LongStick
+Shovel,Base.Shovel
+Shovel Spade,Base.ShovelSpade
+Rake,Base.Rake
+Farming Hoe,Base.FarmingHoe
+Pick Axe,Base.PickAxe
+Pickaxe Handle,Base.PickaxeHandle
+Sledgehammer,Base.Sledgehammer
+Sledgehammer Handle,Base.SledgehammerHandle
+Sheet Rope,Base.SheetRope
+Rope,Base.Rope
+Twine,Base.Twine
+Nails,Base.NailsBox
+Box of Nails,Base.NailsBox
+Nails,Base.Nails
+Screws,Base.Screws
+Bolts,Base.Bolts
+Glue,Base.Glue
+Duct Tape,Base.DuctTape
+Wood Glue,Base.WoodGlue
+Epoxy,Base.Epoxy
+Fiberglass Tape,Base.FiberglassTape
+Wire,Base.Wire
+Barbed Wire,Base.BarbedWire
+Metal Bar,Base.MetalBar
+Metal Pipe,Base.MetalPipe
+Scrap Metal,Base.ScrapMetal
+Scrap Electronics,Base.ScrapElectronics
+Electronics Scrap,Base.ElectronicsScrap
+Aluminum,Base.Aluminum
+Steel,Base.Steel
+Iron,Base.Iron
+Lead,Base.Lead
+Gold,Base.GoldIngot
+Silver,Base.SilverIngot
+Small Gas Can,Base.GasCan
+Gas Can,Base.GasCan
+Large Gas Can,Base.GasCanLarge
+Empty Gas Can,Base.EmptyGasCan
+Propane Tank,Base.PropaneTank
+Welding Rods,Base.WeldingRod
+Blowtorch,Base.BlowTorch
+Soldering Iron,Base.SolderingIron
+Soldering Wire,Base.SolderingWire
+Wrench,Base.Wrench
+Ratchet,Base.Ratchet
+Screwdriver,Base.Screwdriver
+Screwdriver,Base.Screwdriver
+Scissors,Base.Scissors
+Trowel,Base.Trowel
+Tweezers,Base.Tweezers
+Pen,Base.Pen
+Pencil,Base.Pencil
+Marker,Base.Marker
+Eraser,Base.Eraser
+Tape,Base.Tape
+Paper,Base.Paper
+Notebook,Base.Notebook
+Clipboard,Base.Clipboard
+Book,Base.Book
+Magazine,Base.Magazine
+Newspaper,Base.Newspaper
+Phone,Base.Phone
+Lamp On A Stick,Base.LampOnAStick
+Flashlight,Base.Flashlight
+Lighter,Base.Lighter
+Matches,Base.Matches
+Candle,Base.Candle
+Torch,Base.Torch
+Hand Torch,Base.HandTorch
+Alarm Clock,Base.AlarmClock
+Clock,Base.DigitalClock
+Watch,Base.WristWatchLeft
+Binoculars,Base.Binoculars
+Tarp,Base.Tarp
+Garbage Bag,Base.GarbageBag
+Plastic Bag,Base.PlasticBag
+Paper Bag,Base.PaperBag
+Handbag,Base.Handbag
+School Bag,Base.SchoolBag
+Bookbag,Base.Bookbag
+Guitar Case,Base.Guitarcase
+Duffel Bag,Base.Duffelbag
+Fanny Pack,Base.FannyPack
+Purse,Base.Purse
+Camera,Base.Camera
+Film,Base.Film
+Tripod,Base.Tripod
+Television,Base.Television
+Radio,Base.Radio
+Ham Radio,Base.HamRadio
+Walkie Talkie,Base.TwoWayRadio
+Ham Radio Transceiver,Base.HamRadioMake
+Generator,Base.Generator
+Car Battery,Base.CarBattery
+Car Battery 1,Base.CarBattery1
+Car Battery 2,Base.CarBattery2
+Car Battery 3,Base.CarBattery3
+Car Battery 4,Base.CarBattery4
+Light Bulb,Base.LightBulb
+Light Bulb Type A,Base.LightBulbTypeA
+Light Bulb Type B,Base.LightBulbTypeB
+Light Bulb Type C,Base.LightBulbTypeC
+Light Bulb Type D,Base.LightBulbTypeD
+Engine Parts,Base.EngineParts
+Mechanic Manual,Base.MechanicMag1
+Regular Tire,Base.NormalTire1
+Performance Tire,Base.NormalTire2
+Normal Tire,Base.NormalTire3
+Standard Tire,Base.NormalTire4
+Racing Tire,Base.NormalTire5
+Small Engine,Base.SmallEngine
+Standard Engine,Base.NormalEngine1
+Medium Engine,Base.NormalEngine2
+Sport Engine,Base.NormalEngine3
+Heavy Duty Engine,Base.NormalEngine4
+Industrial Engine,Base.NormalEngine5
+Brakes1,Base.Brakes1
+Brakes2,Base.Brakes2
+Brakes3,Base.Brakes3
+Suspension1,Base.Suspension1
+Suspension2,Base.Suspension2
+Suspension3,Base.Suspension3
+Muffler1,Base.Muffler1
+Muffler2,Base.Muffler2
+Muffler3,Base.Muffler3
+Radio Receiver,Base.RadioReceiver
+Amplifier,Base.Amplifier
+Speaker,Base.Speaker
+Radio Transmitter,Base.RadioTransmitter
+Electronics1,Base.Electronics1
+Electronics2,Base.Electronics2
+Electronics3,Base.Electronics3
+Electronics4,Base.Electronics4
+Electronics5,Base.Electronics5
+Dismantled Electronics,Base.ElectronicsScrap
+Electric Wire,Base.ElectricWire
+Timer,Base.Timer
+Digital Timer,Base.DigitalTimer
+Remote,Base.Remote
+Remote Controller,Base.RemoteController
+ID Card,Base.IDCard
+Credit Card,Base.CreditCard
+Wallet,Base.Wallet
+Money,Base.Money
+Money Bundle,Base.MoneyBundle
+Tobacco,Base.Tobacco
+Cigarettes,Base.Cigarettes
+Cigars,Base.Cigar
+Cigars,Base.Cigars
+Pipe Tobacco,Base.PipeTobacco
+Smoking Pipe,Base.SmokingPipe
+Lighter,Base.Lighter
+Matches,Base.Matches
+Cannabis,Base.Cannabis
+Rolling Papers,Base.RollingPapers
+Bong,Base.Bong
+Bread,Base.Bread
+Bread Slices,Base.BreadSlices
+Peanut Butter,Base.PeanutButter
+Jelly,Base.Jelly
+Apple,Base.Apple
+Banana,Base.Banana
+Orange,Base.Orange
+Grapefruit,Base.Grapefruit
+Lemon,Base.Lemon
+Lime,Base.Lime
+Watermelon,Base.Watermelon
+Cherry,Base.Cherry
+Grape,Base.Grape
+Peach,Base.Peach
+Pear,Base.Pear
+Pineapple,Base.Pineapple
+Strawberry,Base.Strawberry
+Avocado,Base.Avocado
+Carrot,Base.Carrot
+Broccoli,Base.Broccoli
+Potato,Base.Potato
+Onion,Base.Onion
+Tomato,Base.Tomato
+Cabbage,Base.Cabbage
+Cauliflower,Base.Cauliflower
+Bell Pepper,Base.PepperJalapeno
+Corn,Base.Corn
+Eggplant,Base.Eggplant
+Leek,Base.Leek
+Pea,Base.Peas
+Radish,Base.RedRadish
+Zucchini,Base.Zucchini
+Bean,Base.Bean
+Rice,Base.Rice
+Pasta,Base.Pasta
+Macaroni,Base.Macaroni
+Tofu,Base.Tofu
+Canned Beans,Base.TinnedBeans
+Canned Carrots,Base.TinnedCarrots
+Canned Corn,Base.TinnedCorn
+Canned Mushroom,Base.TinnedMushroom
+Canned Peas,Base.TinnedPeas
+Canned Potato,Base.TinnedPotato
+Canned Tomato,Base.TinnedTomato
+Canned Chili,Base.CannedChili
+Canned Soup,Base.CannedSoup
+Canned Bolognese,Base.CannedBolognese
+Canned Dog Food,Base.CannedDogFood
+Canned Fish,Base.TunaTin
+Canned Meat,Base.CannedMeat
+Canned Evaporated Milk,Base.CannedMilk
+Chicken,Base.Chicken
+Beef,Base.Beef
+Bacon,Base.Bacon
+Ham,Base.Ham
+Pork,Base.Pork
+Lamb,Base.Lamb
+Steak,Base.Steak
+Fish,Base.Fish
+Salmon,Base.Salmon
+Sausage,Base.Sausage
+Salami,Base.Salami
+Minced Meat,Base.MincedMeat
+Meat Patty,Base.MeatPatty
+Egg,Base.Egg
+Cheese,Base.Cheese
+Butter,Base.Butter
+Milk,Base.Milk
+Cream Cheese,Base.CreamCheese
+Mayonnaise,Base.Mayonnaise
+Ketchup,Base.Ketchup
+Mustard,Base.Mustard
+Vinegar,Base.Vinegar
+Sugar,Base.Sugar
+Salt,Base.Salt
+Pepper,Base.Pepper
+Garlic Powder,Base.GarlicPowder
+Onion Powder,Base.OnionPowder
+Cinnamon,Base.Cinnamon
+Honey,Base.Honey
+Syrup,Base.Syrup
+Coffee,Base.Coffee
+Tea,Base.Tea
+Hot Chocolate,Base.HotChocolate
+Juice,Base.Juice
+Cola,Base.Cola
+Soda,Base.Pop
+Water Bottle,Base.WaterBottle
+Water,Base.Water
+Beer,Base.Beer
+Wine,Base.Wine
+Whiskey,Base.Whiskey
+Vodka,Base.Vodka
+Bourbon,Base.Bourbon
+Tequila,Base.Tequila
+Cocktail,Base.Cocktail
+Mug,Base.Mug
+Empty Mug,Base.MugEmpty
+Bowl,Base.Bowl
+Plate,Base.Plate
+Fork,Base.Fork
+Spoon,Base.Spoon
+Spork,Base.Spork
+Cup,Base.Cup
+Glass,Base.Glass
+Wine Glass,Base.WineGlass
+Pan,Base.Pan
+Pot,Base.Pot
+Baking Pan,Base.BakingPan
+Baking Tray,Base.BakingTray
+Griddle Pan,Base.GriddlePan
+Oven Mitt,Base.OvenMitt
+Spatula,Base.Spatula
+Ladle,Base.Ladle
+Rolling Pin,Base.RollingPin
+Can Opener,Base.CanOpener
+Bottle Opener,Base.BottleOpener
+Corkscrew,Base.Corkscrew
+Sharp Knife,Base.KitchenKnife
+Bread Knife,Base.ButterKnife
+Meat Cleaver,Base.Cleaver
+Measuring Cup,Base.MeasuringCup
+Alcohol Bottle,Base.AlcoholBottle
+Bleach,Base.Bleach
+Clean Water,Base.WaterPure
+Purified Water,Base.WaterPurified
+Water Boiling,Base.WaterBoiling
+Water Distilled,Base.WaterDistilled
+Bandage,Base.Bandage
+Dirty Bandage,Base.BandageDirty
+Ripped Sheets,Base.RippedSheets
+Suture Needle,Base.SutureNeedle
+Suture Needle Holder,Base.SutureNeedleHolder
+Antibiotics,Base.Antibiotics
+Antibandages,Base.Antibandages
+Bandage,Base.Bandage
+Alcohol,Base.AlcoholRipped
+Alcohol Wipes,Base.AlcoholWipes
+Disinfectant,Base.Disinfectant
+Bandage,Base.Bandage
+Pills,Base.Pills
+Pills Anti Depressant,Base.PillsAntiDep
+Pills Beta,Base.PillsBeta
+Pills Sleeping,Base.PillsSleeping
+Pills Vitamin,Base.PillsVitamins
+Cotton Balls,Base.CottonBalls
+Wooden Dowel,Base.WoodenDowel
+Medical Tape,Base.MedicalTape
+Stitch Kit,Base.StitchKit
+Scalpel,Base.Scalpel
+Hemostat,Base.Hemostat
+Tweezers,Base.Tweezers
+Splint,Base.Splint
+Glass Shards,Base.GlassShards
+Leather Strip,Base.LeatherStrip
+Leather,Base.Leather
+Scratch Notes,Base.ScratchNotes
+First Aid Kit,Base.FirstAidKit
+First Aid Kit Military,Base.FirstAidKitMilitary
+Herbaceous Bundle,Base.HerbaceousBundle
+Bandage,Base.AlcoholBandage
+Burn Cream,Base.BurnCream
+Cream,Base.ColdCream
+Gauze,Base.Gauze
+Tongue Depressor,Base.TongueDepressor

@@ -1,5 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using System.Reflection;
+using System.IO;
 using ZomboidRCON.Helpers;
 using ZomboidRCON.Models;
 using ZomboidRCON.Wrapper;
@@ -32,20 +34,30 @@ public partial class ItemSpawnWindow : Window
     {
         try
         {
-            string[] lines = File.ReadAllLines("pz_items.csv");
-            for (int i = 1; i < lines.Length; i++)
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream("ZomboidRCON.Resources.pz_items.csv");
+            if (stream == null)
             {
-                string[] parts = lines[i].Split(',');
-                if (parts.Length == 2)
+                AppLog.Log("ItemSpawn", "Embedded item list not found");
+                return;
+            }
+            using var reader = new StreamReader(stream);
+            string? header = reader.ReadLine();
+            string? line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] parts = line.Split(',');
+                if (parts.Length == 2 && !string.IsNullOrWhiteSpace(parts[1]))
                 {
-                    items.Add(new ItemInfo { Name = parts[0], ID = parts[1] });
-                    ItemCombo.Items.Add(parts[0]);
+                    items.Add(new ItemInfo { Name = parts[0].Trim(), ID = parts[1].Trim() });
+                    ItemCombo.Items.Add(parts[0].Trim());
                 }
             }
+            AppLog.Log("ItemSpawn", $"Loaded {items.Count} items from embedded resource");
         }
-        catch
+        catch (Exception ex)
         {
-            // pz_items.csv may not exist, that's OK
+            AppLog.Log("ItemSpawn", $"Failed to load items: {ex.Message}");
         }
     }
 

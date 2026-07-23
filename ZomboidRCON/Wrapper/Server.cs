@@ -136,7 +136,7 @@ namespace ZomboidRCON.Wrapper
             }
             try
             {
-                string response = await client.ExecuteCommandAsync("godmod " + player.Name + (enable ? " -true" : " -false"));
+                string response = await client.ExecuteCommandAsync("godmode " + player.Name + (enable ? " -true" : " -false"));
                 player.GodmodeEnabled = enable;
                 await ShowMessage(response);
             }
@@ -275,7 +275,7 @@ namespace ZomboidRCON.Wrapper
             }
             try
             {
-                string command = $"additem \"{player.Name}\" {itemID}";
+                string command = $"additem \"{player.Name}\" \"{itemID}\"";
                 if (count > 1)
                 {
                     command += $" {count}";
@@ -307,7 +307,7 @@ namespace ZomboidRCON.Wrapper
             }
             try
             {
-                string response = await client.ExecuteCommandAsync("setaccesslevel  " + player.Name + " " + access);
+                string response = await client.ExecuteCommandAsync("setaccesslevel " + player.Name + " " + access);
                 await ShowMessage(response);
             }
             catch (TaskCanceledException)
@@ -326,6 +326,38 @@ namespace ZomboidRCON.Wrapper
             catch (TaskCanceledException ece)
             {
                 throw ece;
+            }
+        }
+
+        public async Task<string> ShowOptions()
+        {
+            try
+            {
+                return await client.ExecuteCommandAsync("showoptions");
+            }
+            catch (TaskCanceledException)
+            {
+                return "Unable to fetch options. Try reconnecting.";
+            }
+            catch (Exception ex)
+            {
+                return "Error: " + ex.Message;
+            }
+        }
+
+        public async Task<string> ReloadOptions()
+        {
+            try
+            {
+                return await client.ExecuteCommandAsync("reloadoptions");
+            }
+            catch (TaskCanceledException)
+            {
+                return "Unable to reload options. Try reconnecting.";
+            }
+            catch (Exception ex)
+            {
+                return "Error: " + ex.Message;
             }
         }
 
@@ -367,9 +399,9 @@ namespace ZomboidRCON.Wrapper
         Fitness,
         Strength,
         Sprinting,
-        Lightfooted,
+        Lightfoot,
         Nimble,
-        Sneaking,
+        Sneak,
         Axe,
         Blunt,
         SmallBlunt,
@@ -380,14 +412,25 @@ namespace ZomboidRCON.Wrapper
         Woodwork,
         Cooking,
         Farming,
-        FirstAid,
-        Electrical,
-        Metalworking,
+        Doctor,
+        Electricity,
+        MetalWelding,
         Mechanics,
         Tailoring,
         Aiming,
         Reloading,
         Fishing,
-        Trapping
+        Trapping,
+        PlantScavenging,
+        Blacksmith,
+        Masonry,
+        Pottery,
+        Carving,
+        FlintKnapping,
+        Glassmaking,
+        Tracking,
+        Husbandry,
+        Butchering,
+        Melting
     }
 }
