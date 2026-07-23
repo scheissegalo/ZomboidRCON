@@ -49,5 +49,5 @@ jobs:
           gh release create ${{ github.ref_name }} \
             --title "ZomboidRCON ${{ github.ref_name }}" \
             --generate-notes \
-            artifacts/ZomboidRCON-win-x64.zip \
-            artifacts/ZomboidRCON-linux-x64.zip
+            artifacts/ZomboidRCON-win-x64/ZomboidRCON-win-x64.zip \
+            artifacts/ZomboidRCON-linux-x64/ZomboidRCON-linux-x64.zip
