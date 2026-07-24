@@ -275,12 +275,7 @@ namespace ZomboidRCON.Wrapper
             }
             try
             {
-                string command = $"additem \"{player.Name}\" \"{itemID}\"";
-                if (count > 1)
-                {
-                    command += $" {count}";
-                }
-                string response = await client.ExecuteCommandAsync(command);
+                string response = await ExecuteAddItemCommand(player, itemID, count);
                 await ShowMessage(response);
                 return true;
             }
@@ -289,6 +284,60 @@ namespace ZomboidRCON.Wrapper
                 await ShowMessage("Unable to give item to player. Try reconnecting");
                 return false;
             }
+        }
+
+        public async Task<(int success, int failed)> GiveItemPresetToPlayer(Player player, ItemPreset preset)
+        {
+            if (!player.isOnline)
+            {
+                await ShowMessage("Player is offline, command cannot be executed");
+                return (0, preset.Items.Count);
+            }
+
+            int success = 0;
+            int failed = 0;
+
+            try
+            {
+                foreach (var entry in preset.Items)
+                {
+                    if (string.IsNullOrWhiteSpace(entry.Id))
+                    {
+                        failed++;
+                        continue;
+                    }
+
+                    try
+                    {
+                        await ExecuteAddItemCommand(player, entry.Id, entry.Count);
+                        success++;
+                    }
+                    catch (Exception ex)
+                    {
+                        failed++;
+                        AppLog.Log("GivePreset", $"Failed to give {entry.Id} x{entry.Count}: {ex.Message}");
+                    }
+                }
+
+                string summary = failed == 0
+                    ? $"Gave preset '{preset.Name}' to {player.Name} ({success} items)."
+                    : $"Gave preset '{preset.Name}' to {player.Name}: {success} succeeded, {failed} failed.";
+                await ShowMessage(summary);
+                return (success, failed);
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to give preset to player. Try reconnecting");
+                return (success, preset.Items.Count - success);
+            }
+        }
+
+        private async Task<string> ExecuteAddItemCommand(Player player, string itemID, int count)
+        {
+            string command = $"additem \"{player.Name}\" \"{itemID}\"";
+            if (count > 1)
+                command += $" {count}";
+            return await client.ExecuteCommandAsync(command);
         }
 
         public async void SetAccessLevel(Player player, AccessLevel accessLevel)

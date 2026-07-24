@@ -1,0 +1,306 @@
+{
+  "presets": [
+    {
+      "id": "profession.unemployed",
+      "name": "Unemployed",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.KitchenKnife", "count": 1 },
+        { "id": "Base.Bandage", "count": 1 },
+        { "id": "Base.WaterBottleFull", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.burglar",
+      "name": "Burglar",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Screwdriver", "count": 1 },
+        { "id": "Base.Crowbar", "count": 1 },
+        { "id": "Base.BaseballBat", "count": 1 },
+        { "id": "Base.Bag_NormalHikingBag", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.carpenter",
+      "name": "Carpenter",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Hammer", "count": 1 },
+        { "id": "Base.Saw", "count": 1 },
+        { "id": "Base.Nails", "count": 20 },
+        { "id": "Base.Pencil", "count": 1 },
+        { "id": "Base.Plank", "count": 4 }
+      ]
+    },
+    {
+      "id": "profession.chef",
+      "name": "Chef",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.KitchenKnife", "count": 1 },
+        { "id": "Base.Pan", "count": 1 },
+        { "id": "Base.Pot", "count": 1 },
+        { "id": "Base.Spatula", "count": 1 },
+        { "id": "Base.TinOpener", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.construction",
+      "name": "Construction Worker",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Hammer", "count": 1 },
+        { "id": "Base.NailsBox", "count": 1 },
+        { "id": "Base.Saw", "count": 1 },
+        { "id": "Base.Plank", "count": 4 },
+        { "id": "Base.Screws", "count": 10 }
+      ]
+    },
+    {
+      "id": "profession.doctor",
+      "name": "Doctor",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Bandage", "count": 4 },
+        { "id": "Base.SutureNeedle", "count": 1 },
+        { "id": "Base.Disinfectant", "count": 1 },
+        { "id": "Base.Scalpel", "count": 1 },
+        { "id": "Base.Pills", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.electrician",
+      "name": "Electrician",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Screwdriver", "count": 1 },
+        { "id": "Base.Wire", "count": 2 },
+        { "id": "Base.ElectronicsScrap", "count": 2 },
+        { "id": "Base.DuctTape", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.engineer",
+      "name": "Engineer",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Screwdriver", "count": 1 },
+        { "id": "Base.Wrench", "count": 1 },
+        { "id": "Base.DuctTape", "count": 1 },
+        { "id": "Base.Glue", "count": 1 },
+        { "id": "Base.MetalBar", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.farmer",
+      "name": "Farmer",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.GardenHoe", "count": 1 },
+        { "id": "Base.Shovel", "count": 1 },
+        { "id": "Base.CompostBag", "count": 1 },
+        { "id": "Base.SeedBag", "count": 1 },
+        { "id": "Base.Carrots", "count": 2 }
+      ]
+    },
+    {
+      "id": "profession.fire_officer",
+      "name": "Fire Officer",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Axe", "count": 1 },
+        { "id": "Base.Extinguisher", "count": 1 },
+        { "id": "Base.Hammer", "count": 1 },
+        { "id": "Base.Crowbar", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.fisherman",
+      "name": "Fisherman",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.FishingRod", "count": 1 },
+        { "id": "Base.FishingTackle", "count": 1 },
+        { "id": "Base.FishingNet", "count": 1 },
+        { "id": "Base.HuntingKnife", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.fitness_instructor",
+      "name": "Fitness Instructor",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.WaterBottleFull", "count": 1 },
+        { "id": "Base.Pop2", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.lumberjack",
+      "name": "Lumberjack",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.WoodAxe", "count": 1 },
+        { "id": "Base.Saw", "count": 1 },
+        { "id": "Base.Plank", "count": 2 }
+      ]
+    },
+    {
+      "id": "profession.mechanic",
+      "name": "Mechanic",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Wrench", "count": 1 },
+        { "id": "Base.LugWrench", "count": 1 },
+        { "id": "Base.Jack", "count": 1 },
+        { "id": "Base.Screwdriver", "count": 1 },
+        { "id": "Base.DuctTape", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.metalworker",
+      "name": "Metalworker",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.BlowTorch", "count": 1 },
+        { "id": "Base.WeldingMask", "count": 1 },
+        { "id": "Base.WeldingRods", "count": 2 },
+        { "id": "Base.SmallSheetMetal", "count": 1 },
+        { "id": "Base.SheetMetal", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.nurse",
+      "name": "Nurse",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Bandage", "count": 4 },
+        { "id": "Base.AlcoholWipes", "count": 1 },
+        { "id": "Base.Pills", "count": 1 },
+        { "id": "Base.Disinfectant", "count": 1 },
+        { "id": "Base.Tweezers", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.park_ranger",
+      "name": "Park Ranger",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.HuntingKnife", "count": 1 },
+        { "id": "Base.FishingRod", "count": 1 },
+        { "id": "Base.HuntingRifle", "count": 1 },
+        { "id": "Base.ShotgunShells", "count": 10 }
+      ]
+    },
+    {
+      "id": "profession.police_officer",
+      "name": "Police Officer",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Nightstick", "count": 1 },
+        { "id": "Base.Pistol", "count": 1 },
+        { "id": "Base.Bullets9mm", "count": 15 },
+        { "id": "Base.Radio", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.repairman",
+      "name": "Repairman",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Wrench", "count": 1 },
+        { "id": "Base.Screwdriver", "count": 1 },
+        { "id": "Base.DuctTape", "count": 1 },
+        { "id": "Base.Glue", "count": 1 },
+        { "id": "Base.PipeWrench", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.security_guard",
+      "name": "Security Guard",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Nightstick", "count": 1 },
+        { "id": "Base.HandTorch", "count": 1 },
+        { "id": "Base.Radio", "count": 1 }
+      ]
+    },
+    {
+      "id": "profession.veteran",
+      "name": "Veteran",
+      "group": "Profession",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.HuntingKnife", "count": 1 },
+        { "id": "Base.Pistol", "count": 1 },
+        { "id": "Base.Bullets9mm", "count": 15 },
+        { "id": "Base.Bandage", "count": 2 }
+      ]
+    },
+    {
+      "id": "survival.basic",
+      "name": "Basic Survival",
+      "group": "Survival",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.WaterBottleFull", "count": 1 },
+        { "id": "Base.TinnedBeans", "count": 1 },
+        { "id": "Base.Bandage", "count": 1 },
+        { "id": "Base.KitchenKnife", "count": 1 },
+        { "id": "Base.Matches", "count": 1 }
+      ]
+    },
+    {
+      "id": "survival.extended",
+      "name": "Extended Survival",
+      "group": "Survival",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.WaterBottleFull", "count": 2 },
+        { "id": "Base.TinnedBeans", "count": 2 },
+        { "id": "Base.TinnedSoup", "count": 1 },
+        { "id": "Base.Bandage", "count": 2 },
+        { "id": "Base.KitchenKnife", "count": 1 },
+        { "id": "Base.Matches", "count": 1 },
+        { "id": "Base.Bag_NormalHikingBag", "count": 1 },
+        { "id": "Base.HandTorch", "count": 1 },
+        { "id": "Base.Rope", "count": 1 },
+        { "id": "Base.FireWoodKit", "count": 1 }
+      ]
+    },
+    {
+      "id": "survival.medical",
+      "name": "Medical Kit",
+      "group": "Survival",
+      "isBuiltIn": true,
+      "items": [
+        { "id": "Base.Bandage", "count": 4 },
+        { "id": "Base.Disinfectant", "count": 1 },
+        { "id": "Base.Pills", "count": 1 },
+        { "id": "Base.SutureNeedle", "count": 1 },
+        { "id": "Base.Splint", "count": 1 },
+        { "id": "Base.AlcoholWipes", "count": 1 }
+      ]
+    }
+  ]
+}

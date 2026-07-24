@@ -13,6 +13,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Server Controls">
                 <MenuItem Header="_Command Console" Click="OnCommandConsoleClick"/>
+                <MenuItem Header="_Item Presets..." Click="OnItemPresetsClick"/>
                 <MenuItem Header="Show _Options" Click="OnShowOptionsClick"/>
                 <MenuItem Header="_Reload Options" Click="OnReloadOptionsClick"/>
             </MenuItem>

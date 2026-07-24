@@ -324,6 +324,12 @@ public partial class MainWindow : Window
         cc.Show();
     }
 
+    private async void OnItemPresetsClick(object? sender, RoutedEventArgs e)
+    {
+        var editor = new ItemPresetEditorWindow();
+        await editor.ShowDialog(this);
+    }
+
     private async void OnShowOptionsClick(object? sender, RoutedEventArgs e)
     {
         if (server == null) return;

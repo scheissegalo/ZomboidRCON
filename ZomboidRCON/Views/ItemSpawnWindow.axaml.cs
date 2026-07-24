@@ -1,25 +1,18 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using System.Reflection;
-using System.IO;
 using ZomboidRCON.Helpers;
 using ZomboidRCON.Models;
+using ZomboidRCON.Services;
 using ZomboidRCON.Wrapper;
 
 namespace ZomboidRCON.Views;
 
 public partial class ItemSpawnWindow : Window
 {
-    private Player player;
-    private Server server;
-    private List<ItemInfo> items = new();
-
-    private class ItemInfo
-    {
-        public string Name { get; set; } = "";
-        public string ID { get; set; } = "";
-        public override string ToString() => $"{Name} ({ID})";
-    }
+    private readonly Player player;
+    private readonly Server server;
+    private bool _suppressSelectionSync;
+    private List<ItemPreset> _presets = [];
 
     public ItemSpawnWindow(Player player, Server server)
     {
@@ -27,47 +20,127 @@ public partial class ItemSpawnWindow : Window
         this.player = player;
         this.server = server;
         Title = "Give item to '" + player.Name + "'";
-        LoadItems();
+        InitializeCategories();
+        InitializePresets();
+        RefreshItemList();
     }
 
-    private void LoadItems()
+    private void InitializeCategories()
     {
+        CategoryCombo.Items.Add("All");
+        foreach (var category in ItemCatalog.Categories)
+            CategoryCombo.Items.Add(category.ToString());
+        CategoryCombo.SelectedIndex = 0;
+    }
+
+    private void InitializePresets()
+    {
+        RefreshPresetList();
+        PresetCombo.SelectedIndex = 0;
+    }
+
+    private void RefreshPresetList()
+    {
+        _presets = ItemPresetStore.All.ToList();
+        PresetCombo.Items.Clear();
+        PresetCombo.Items.Add("(None)");
+        foreach (var preset in _presets)
+            PresetCombo.Items.Add(preset.DisplayLabel);
+    }
+
+    private ItemPreset? GetSelectedPreset()
+    {
+        int index = PresetCombo.SelectedIndex;
+        if (index <= 0 || index - 1 >= _presets.Count)
+            return null;
+        return _presets[index - 1];
+    }
+
+    private void RefreshPresetPreview()
+    {
+        var preset = GetSelectedPreset();
+        GivePresetBtn.IsEnabled = preset != null;
+        PresetPreview.ItemsSource = preset?.Items
+            .Select(ItemPresetStore.FormatEntry)
+            .ToList() ?? [];
+    }
+
+    private void OnPresetChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        RefreshPresetPreview();
+    }
+
+    private async void OnGivePresetClick(object? sender, RoutedEventArgs e)
+    {
+        var preset = GetSelectedPreset();
+        if (preset == null) return;
+
+        GivePresetBtn.IsEnabled = false;
         try
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            using var stream = assembly.GetManifestResourceStream("ZomboidRCON.Resources.pz_items.csv");
-            if (stream == null)
-            {
-                AppLog.Log("ItemSpawn", "Embedded item list not found");
-                return;
-            }
-            using var reader = new StreamReader(stream);
-            string? header = reader.ReadLine();
-            string? line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                string[] parts = line.Split(',');
-                if (parts.Length == 2 && !string.IsNullOrWhiteSpace(parts[1]))
-                {
-                    items.Add(new ItemInfo { Name = parts[0].Trim(), ID = parts[1].Trim() });
-                    ItemCombo.Items.Add(parts[0].Trim());
-                }
-            }
-            AppLog.Log("ItemSpawn", $"Loaded {items.Count} items from embedded resource");
+            await server.GiveItemPresetToPlayer(player, preset);
         }
         catch (Exception ex)
         {
-            AppLog.Log("ItemSpawn", $"Failed to load items: {ex.Message}");
+            await DialogHelper.ShowMessage(this, "Error giving preset: " + ex.Message);
+        }
+        finally
+        {
+            GivePresetBtn.IsEnabled = preset != null;
         }
     }
 
-    private void OnItemComboChanged(object? sender, SelectionChangedEventArgs e)
+    private async void OnManagePresetsClick(object? sender, RoutedEventArgs e)
     {
-        int idx = ItemCombo.SelectedIndex;
-        if (idx >= 0 && idx < items.Count)
+        var editor = new ItemPresetEditorWindow();
+        await editor.ShowDialog(this);
+        RefreshPresetList();
+        RefreshPresetPreview();
+    }
+
+    private ItemType? GetSelectedCategory()
+    {
+        if (CategoryCombo.SelectedItem is not string selected || selected == "All")
+            return null;
+
+        return Enum.TryParse<ItemType>(selected, out var category) ? category : null;
+    }
+
+    private void RefreshItemList()
+    {
+        var query = SearchBox.Text;
+        var category = GetSelectedCategory();
+        var results = ItemCatalog.Search(query, category).ToList();
+
+        _suppressSelectionSync = true;
+        ItemsList.ItemsSource = results;
+
+        if (results.Count > 0)
         {
-            ItemIDTxt.Text = items[idx].ID;
+            ItemsList.SelectedIndex = 0;
+            ItemIDTxt.Text = results[0].Id;
         }
+        else if (string.IsNullOrWhiteSpace(ItemIDTxt.Text))
+        {
+            ItemsList.SelectedIndex = -1;
+        }
+
+        _suppressSelectionSync = false;
+        SpawnBtn.IsEnabled = !string.IsNullOrWhiteSpace(ItemIDTxt.Text);
+    }
+
+    private void OnFilterChanged(object? sender, RoutedEventArgs e)
+    {
+        RefreshItemList();
+    }
+
+    private void OnItemSelected(object? sender, SelectionChangedEventArgs e)
+    {
+        if (_suppressSelectionSync)
+            return;
+
+        if (ItemsList.SelectedItem is Item item)
+            ItemIDTxt.Text = item.Id;
     }
 
     private void OnItemIDTxtChanged(object? sender, TextChangedEventArgs e)
@@ -81,6 +154,11 @@ public partial class ItemSpawnWindow : Window
         SpawnBtn.IsEnabled = false;
         ItemIDTxt.IsEnabled = false;
         CountNumeric.IsEnabled = false;
+        SearchBox.IsEnabled = false;
+        CategoryCombo.IsEnabled = false;
+        ItemsList.IsEnabled = false;
+        PresetCombo.IsEnabled = false;
+        GivePresetBtn.IsEnabled = false;
 
         try
         {
@@ -96,5 +174,10 @@ public partial class ItemSpawnWindow : Window
         SpawnBtn.IsEnabled = true;
         ItemIDTxt.IsEnabled = true;
         CountNumeric.IsEnabled = true;
+        SearchBox.IsEnabled = true;
+        CategoryCombo.IsEnabled = true;
+        ItemsList.IsEnabled = true;
+        PresetCombo.IsEnabled = true;
+        GivePresetBtn.IsEnabled = GetSelectedPreset() != null;
     }
 }

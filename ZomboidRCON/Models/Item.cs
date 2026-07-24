@@ -1,44 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ZomboidRCON.Models
+﻿namespace ZomboidRCON.Models
 {
     public enum ItemType
     {
-        Ammo,
-        Baggage,
-        Throwables,
-        Camping,
-        Consumables,
-        Drinks,
-        Engineering,
-        Farming,
-        Firearms,
+        Clothing,
+        Weapons,
         Food,
-        Fruit,
-        Illumination,
-        Literature,
         Medical,
-        Melee,
-        Seeds,
-        Stationery,
+        Materials,
         Tools,
+        Electronics,
+        Literature,
+        Camping,
         Trapping,
-        Unique,
-        Unused,
-        Vegetables,
-        WeaponParts,
-        Other
+        Containers,
+        Miscellaneous
     }
+
     public class Item
     {
-        public string Name { get; set; }
+        public string Id { get; set; } = "";
+        public string Name { get; set; } = "";
         public ItemType Type { get; set; }
         public Variant[]? Variants { get; set; }
         public bool isStock { get; set; }
         public Uri? Wiki { get; set; }
+
+        public string DisplayText => $"{Name} ({Id})";
+
+        public override string ToString() => DisplayText;
     }
 }

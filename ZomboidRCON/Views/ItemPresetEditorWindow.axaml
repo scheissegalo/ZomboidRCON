@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.ItemPresetEditorWindow"
+        Title="Item Presets"
+        Width="780" Height="520"
+        MinWidth="680" MinHeight="420"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        Icon="/Assets/Icons/icon.ico">
+
+    <Grid Margin="16" ColumnDefinitions="240,12,*">
+        <Grid Grid.Column="0" RowDefinitions="Auto,Auto,*,Auto">
+            <TextBlock Grid.Row="0" Text="Filter:" Margin="0,0,0,4"/>
+            <ComboBox Grid.Row="1" x:Name="GroupFilterCombo" Margin="0,0,0,8"
+                      SelectionChanged="OnGroupFilterChanged"/>
+
+            <ListBox Grid.Row="2" x:Name="PresetList" Margin="0,0,0,8"
+                     SelectionChanged="OnPresetListChanged"/>
+
+            <StackPanel Grid.Row="3" Spacing="6">
+                <Button x:Name="NewBtn" Content="New" Click="OnNewClick"/>
+                <Button x:Name="DuplicateBtn" Content="Duplicate" Click="OnDuplicateClick"/>
+                <Button x:Name="DeleteBtn" Content="Delete" Click="OnDeleteClick"/>
+                <Button x:Name="ResetBtn" Content="Reset to Default" Click="OnResetClick"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="2" RowDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" Text="Name:" Margin="0,0,0,4"/>
+            <TextBox Grid.Row="1" x:Name="NameBox" Margin="0,0,0,8"/>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                <TextBlock Text="Group:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="GroupCombo" Width="160"/>
+            </StackPanel>
+
+            <Grid Grid.Row="3" RowDefinitions="Auto,*" Margin="0,0,0,8">
+                <TextBlock Grid.Row="0" Text="Items in preset:" FontWeight="Bold" Margin="0,0,0,4"/>
+                <ListBox Grid.Row="1" x:Name="PresetItemsList" SelectionChanged="OnPresetItemSelected"/>
+            </Grid>
+
+            <Grid Grid.Row="4" ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="0,0,0,8">
+                <TextBlock Grid.Column="0" Text="Count:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <NumericUpDown Grid.Column="1" x:Name="EntryCountNumeric" Minimum="1" Maximum="100" Value="1" Margin="0,0,8,0"/>
+                <Button Grid.Column="2" x:Name="UpdateCountBtn" Content="Update Count" Margin="0,0,8,0" Click="OnUpdateCountClick"/>
+                <Button Grid.Column="3" x:Name="RemoveItemBtn" Content="Remove" Click="OnRemoveItemClick"/>
+            </Grid>
+
+            <Grid Grid.Row="5" ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="0,0,0,8">
+                <TextBlock Grid.Column="0" Text="Add:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBox Grid.Column="1" x:Name="AddSearchBox" Watermark="Search items..." Margin="0,0,8,0"
+                         TextChanged="OnAddSearchChanged"/>
+                <ComboBox Grid.Column="2" x:Name="AddItemCombo" Width="180" Margin="0,0,8,0"
+                          SelectionChanged="OnAddItemComboChanged"/>
+                <NumericUpDown Grid.Column="3" x:Name="AddCountNumeric" Minimum="1" Maximum="100" Value="1" Width="80" Margin="0,0,8,0"/>
+                <Button Grid.Column="4" x:Name="AddItemBtn" Content="Add" Click="OnAddItemClick"/>
+            </Grid>
+
+            <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button x:Name="SaveBtn" Content="Save" Width="90" Click="OnSaveClick"/>
+                <Button x:Name="CancelBtn" Content="Close" Width="90" Click="OnCancelClick"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
