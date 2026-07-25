@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZomboidRCON.Models;
 using ZomboidRCON.Helpers;
+using ZomboidRCON.Services;
 
 namespace ZomboidRCON.Wrapper
 {
@@ -55,25 +56,27 @@ namespace ZomboidRCON.Wrapper
                 AppLog.Log("Server", "Executing 'players' RCON command...");
                 string response = await client.ExecuteCommandAsync("players");
                 AppLog.Log("Server", $"Raw players response: '{response}'");
-                string[] arr = response.Split('\n');
+                string[] arr = response.Split('\n', StringSplitOptions.RemoveEmptyEntries);
                 AppLog.Log("Server", $"Split into {arr.Length} lines");
                 foreach (string item in arr)
                 {
-                    string trimmed = item.TrimStart();
+                    string trimmed = item.Trim('\r', ' ', '\t');
                     AppLog.Log("Server", $"  Line: '{item}' -> trimmed: '{trimmed}' startsWithDash={trimmed.StartsWith('-')}");
-                    if (trimmed.StartsWith('-'))
+                    if (!trimmed.StartsWith('-'))
+                        continue;
+
+                    string user = trimmed.Substring(1).Trim();
+                    if (string.IsNullOrWhiteSpace(user))
+                        continue;
+
+                    Player player = new Player
                     {
-                        string user = trimmed.Substring(1).Trim();
-                        if (string.IsNullOrWhiteSpace(user)) continue;
-                        Player player = new Player
-                        {
-                            Name = user,
-                            isOnline = true,
-                            accessLevel = AccessLevel.Unknown,
-                        };
-                        players.Add(player);
-                        dataManager.AddPlayer(player);
-                    }
+                        Name = user,
+                        isOnline = true,
+                        accessLevel = AccessLevel.Unknown,
+                    };
+                    players.Add(player);
+                    dataManager.AddPlayer(player);
                 }
                 AppLog.Log("Server", $"Parsed {players.Count} players from RCON response");
             }
@@ -415,7 +418,7 @@ namespace ZomboidRCON.Wrapper
             client.Disconnect();
         }
 
-        public List<Vehicle> Vehicles { get { return dataManager.Vehicles; } }
+        public List<Vehicle> Vehicles { get { return VehicleCatalog.All.ToList(); } }
         public string Host { get { return host; } }
         public int Port { get { return port; } }
 

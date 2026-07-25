@@ -15,6 +15,7 @@ public partial class CommandConsoleWindow : Window
         InitializeComponent();
         this.server = server;
         AddToOutput("System", "Starting command console");
+        AddToOutput("System", "Type 'help' to list server commands for your connected Build 42 server.");
     }
 
     private void AddToOutput(string title, string content, bool contentNewline = false)

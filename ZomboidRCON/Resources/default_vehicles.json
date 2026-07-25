@@ -1,0 +1,737 @@
+{
+  "build": "42",
+  "generated": "2026-07-24",
+  "source": "/media/berni/FatExt2TB/SteamLibrary/steamapps/common/ProjectZomboid/projectzomboid",
+  "vehicleGroupCount": 20,
+  "vehicleCount": 157,
+  "vehicles": [
+    {
+      "name": "Ambulance",
+      "variants": [
+        {
+          "title": "Van Ambulance",
+          "variantId": "Base.VanAmbulance"
+        }
+      ]
+    },
+    {
+      "name": "Chevalier Cerise Wagon",
+      "variants": [
+        {
+          "title": "Car Station Wagon",
+          "variantId": "Base.CarStationWagon"
+        },
+        {
+          "title": "Car Station Wagon2",
+          "variantId": "Base.CarStationWagon2"
+        }
+      ]
+    },
+    {
+      "name": "Chevalier Cossette",
+      "variants": [
+        {
+          "title": "Sports Car",
+          "variantId": "Base.SportsCar"
+        },
+        {
+          "title": "Sports Car_ez",
+          "variantId": "Base.SportsCar_ez"
+        }
+      ]
+    },
+    {
+      "name": "Chevalier D6",
+      "variants": [
+        {
+          "title": "Pick Up Truck",
+          "variantId": "Base.PickUpTruck"
+        },
+        {
+          "title": "JP Landscaping Chevalier D6",
+          "variantId": "Base.PickUpTruckJPLandscaping"
+        },
+        {
+          "title": "Airport Chevalier D6",
+          "variantId": "Base.PickUpTruckLightsAirport"
+        },
+        {
+          "title": "Airport Security Chevalier D6",
+          "variantId": "Base.PickUpTruckLightsAirportSecurity"
+        },
+        {
+          "title": "Fire Department Chevalier D6",
+          "variantId": "Base.PickUpTruckLightsFire"
+        },
+        {
+          "title": "Fossoil Chevalier D6",
+          "variantId": "Base.PickUpTruckLightsFossoil"
+        },
+        {
+          "title": "Ranger Chevalier D6",
+          "variantId": "Base.PickUpTruckLightsRanger"
+        },
+        {
+          "title": "McCoy Chevalier D6",
+          "variantId": "Base.PickUpTruckMccoy"
+        },
+        {
+          "title": "Pick Up Truck_Camo",
+          "variantId": "Base.PickUpTruck_Camo"
+        }
+      ]
+    },
+    {
+      "name": "Chevalier Dart",
+      "variants": [
+        {
+          "title": "Small Car",
+          "variantId": "Base.SmallCar"
+        }
+      ]
+    },
+    {
+      "name": "Chevalier Nyala",
+      "variants": [
+        {
+          "title": "Bulletin Sheriff Chevalier Nyala",
+          "variantId": "Base.CarLightsBulletinSheriff"
+        },
+        {
+          "title": "State Trooper Chevalier Nyala",
+          "variantId": "Base.CarLightsKST"
+        },
+        {
+          "title": "LCPD Chevalier Nyala",
+          "variantId": "Base.CarLightsLouisvilleCounty"
+        },
+        {
+          "title": "Muldraugh Police Chevalier Nyala",
+          "variantId": "Base.CarLightsMuldraughPolice"
+        },
+        {
+          "title": "Police Chevalier Nyala",
+          "variantId": "Base.CarLightsPolice"
+        },
+        {
+          "title": "Ranger Chevalier Nyala",
+          "variantId": "Base.CarLightsRanger"
+        },
+        {
+          "title": "Car Normal",
+          "variantId": "Base.CarNormal"
+        },
+        {
+          "title": "Taxi",
+          "variantId": "Base.CarTaxi"
+        },
+        {
+          "title": "Taxi",
+          "variantId": "Base.CarTaxi2"
+        }
+      ]
+    },
+    {
+      "name": "Chevalier Primani",
+      "variants": [
+        {
+          "title": "Modern Car02",
+          "variantId": "Base.ModernCar02"
+        }
+      ]
+    },
+    {
+      "name": "Chevalier Step Van",
+      "variants": [
+        {
+          "title": "Step Van",
+          "variantId": "Base.StepVan"
+        },
+        {
+          "title": "Airport Catering Chevalier Step Van",
+          "variantId": "Base.StepVanAirportCatering"
+        },
+        {
+          "title": "Mail Chevalier Step Van",
+          "variantId": "Base.StepVanMail"
+        },
+        {
+          "title": "Step Van_Blacksmith",
+          "variantId": "Base.StepVan_Blacksmith"
+        },
+        {
+          "title": "Step Van_Butchers",
+          "variantId": "Base.StepVan_Butchers"
+        },
+        {
+          "title": "Cereal Delivery Chevalier Step Van",
+          "variantId": "Base.StepVan_Cereal"
+        },
+        {
+          "title": "Citr8 Chevalier Step Van",
+          "variantId": "Base.StepVan_Citr8"
+        },
+        {
+          "title": "Complete Repair Shop Chevalier Step Van",
+          "variantId": "Base.StepVan_CompleteRepairShop"
+        },
+        {
+          "title": "Step Van_Florist",
+          "variantId": "Base.StepVan_Florist"
+        },
+        {
+          "title": "Genuine Beer Chevalier Step Van",
+          "variantId": "Base.StepVan_Genuine_Beer"
+        },
+        {
+          "title": "Step Van_Glass",
+          "variantId": "Base.StepVan_Glass"
+        },
+        {
+          "title": "KY Herald Chevalier Step Van",
+          "variantId": "Base.StepVan_Heralds"
+        },
+        {
+          "title": "Huang's Laundry Chevalier Step Van",
+          "variantId": "Base.StepVan_HuangsLaundry"
+        },
+        {
+          "title": "Jorgensen Chevalier Step Van",
+          "variantId": "Base.StepVan_Jorgensen"
+        },
+        {
+          "title": "Louisville Motorshop Chevalier Step Van",
+          "variantId": "Base.StepVan_LouisvilleMotorShop"
+        },
+        {
+          "title": "Louisville SWAT Chevalier Step Van",
+          "variantId": "Base.StepVan_LouisvilleSWAT"
+        },
+        {
+          "title": "Marine Bites Chevalier Step Van",
+          "variantId": "Base.StepVan_MarineBites"
+        },
+        {
+          "title": "Step Van_Masonry",
+          "variantId": "Base.StepVan_Masonry"
+        },
+        {
+          "title": "Mechanic's Chevalier Step Van",
+          "variantId": "Base.StepVan_Mechanic"
+        },
+        {
+          "title": "Step Van_Mobile Library",
+          "variantId": "Base.StepVan_MobileLibrary"
+        },
+        {
+          "title": "Plonkies Chevalier Step Van",
+          "variantId": "Base.StepVan_Plonkies"
+        },
+        {
+          "title": "Step Van_Propane",
+          "variantId": "Base.StepVan_Propane"
+        },
+        {
+          "title": "Randi's Plants Chevalier Step Van",
+          "variantId": "Base.StepVan_RandisPlants"
+        },
+        {
+          "title": "Scarlet Oak Chevalier Step Van",
+          "variantId": "Base.StepVan_Scarlet"
+        },
+        {
+          "title": "Step Van_Smart Kut",
+          "variantId": "Base.StepVan_SmartKut"
+        },
+        {
+          "title": "South Eastern Hospitality Chevalier Step Van",
+          "variantId": "Base.StepVan_SouthEasternHosp"
+        },
+        {
+          "title": "South Eastern Paint Chevalier Step Van",
+          "variantId": "Base.StepVan_SouthEasternPaint"
+        },
+        {
+          "title": "USL Chevalier Step Van",
+          "variantId": "Base.StepVan_USL"
+        },
+        {
+          "title": "Zippee Chevalier Step Van",
+          "variantId": "Base.StepVan_Zippee"
+        }
+      ]
+    },
+    {
+      "name": "Dash Bulldriver",
+      "variants": [
+        {
+          "title": "Pick Up Van",
+          "variantId": "Base.PickUpVan"
+        },
+        {
+          "title": "Bricking It Dash Bulldriver",
+          "variantId": "Base.PickUpVanBrickingIt"
+        },
+        {
+          "title": "Builder's Dash Bulldriver",
+          "variantId": "Base.PickUpVanBuilder"
+        },
+        {
+          "title": "Calloway Landscaping Dash Bulldriver",
+          "variantId": "Base.PickUpVanCallowayLandscaping"
+        },
+        {
+          "title": "Helton Metalworking Dash Bulldriver",
+          "variantId": "Base.PickUpVanHeltonMetalWorking"
+        },
+        {
+          "title": "Kimbler Konstruction Dash Bulldriver",
+          "variantId": "Base.PickUpVanKimbleKonstruction"
+        },
+        {
+          "title": "Carpenter's Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsCarpenter"
+        },
+        {
+          "title": "Fire Department Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsFire"
+        },
+        {
+          "title": "Fossoil Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsFossoil"
+        },
+        {
+          "title": "Kentucky Lumber Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsKentuckyLumber"
+        },
+        {
+          "title": "LCPD Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsLouisvilleCounty"
+        },
+        {
+          "title": "Police Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsPolice"
+        },
+        {
+          "title": "Ranger Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsRanger"
+        },
+        {
+          "title": "State Trooper Dash Bulldriver",
+          "variantId": "Base.PickUpVanLightsStatePolice"
+        },
+        {
+          "title": "March Ridge Construction Dash Bulldriver",
+          "variantId": "Base.PickUpVanMarchRidgeConstruction"
+        },
+        {
+          "title": "McCoy Dash Bulldriver",
+          "variantId": "Base.PickUpVanMccoy"
+        },
+        {
+          "title": "Metalworker's Dash Bulldriver",
+          "variantId": "Base.PickUpVanMetalworker"
+        },
+        {
+          "title": "Welding by Camille Dash Bulldriver",
+          "variantId": "Base.PickUpVanWeldingbyCamille"
+        },
+        {
+          "title": "Van Yings Wood Dash Bulldriver",
+          "variantId": "Base.PickUpVanYingsWood"
+        },
+        {
+          "title": "Pick Up Van_Camo",
+          "variantId": "Base.PickUpVan_Camo"
+        }
+      ]
+    },
+    {
+      "name": "Dash Elite",
+      "variants": [
+        {
+          "title": "Modern Car",
+          "variantId": "Base.ModernCar"
+        },
+        {
+          "title": "Louisville Police Dash Elite",
+          "variantId": "Base.ModernCarLightsCityLouisvillePD"
+        },
+        {
+          "title": "Meade Sheriff Dash Elite",
+          "variantId": "Base.ModernCarLightsMeadeSheriff"
+        },
+        {
+          "title": "West Point Police Dash Elite",
+          "variantId": "Base.ModernCarLightsWestPoint"
+        },
+        {
+          "title": "Modern Car_Martin",
+          "variantId": "Base.ModernCar_Martin"
+        }
+      ]
+    },
+    {
+      "name": "Dash Rancher",
+      "variants": [
+        {
+          "title": "Off Road",
+          "variantId": "Base.OffRoad"
+        }
+      ]
+    },
+    {
+      "name": "Franklin All-Terrain",
+      "variants": [
+        {
+          "title": "SUV",
+          "variantId": "Base.SUV"
+        }
+      ]
+    },
+    {
+      "name": "Franklin Valuline",
+      "variants": [
+        {
+          "title": "Van",
+          "variantId": "Base.Van"
+        },
+        {
+          "title": "Beckman's Building Franklin Valuline",
+          "variantId": "Base.VanBeckmans"
+        },
+        {
+          "title": "Brewster & Harbin Franklin Valuline",
+          "variantId": "Base.VanBrewsterHarbin"
+        },
+        {
+          "title": "Builder's Franklin Valuline",
+          "variantId": "Base.VanBuilder"
+        },
+        {
+          "title": "Carpenter's Franklin Valuline",
+          "variantId": "Base.VanCarpenter"
+        },
+        {
+          "title": "Coast 2 Coast Franklin Valuline",
+          "variantId": "Base.VanCoastToCoast"
+        },
+        {
+          "title": "Deer Valley Power Franklin Valuline",
+          "variantId": "Base.VanDeerValley"
+        },
+        {
+          "title": "Fossoil Franklin Valuline",
+          "variantId": "Base.VanFossoil"
+        },
+        {
+          "title": "Garden Gods Franklin Valuline",
+          "variantId": "Base.VanGardenGods"
+        },
+        {
+          "title": "Gardener's Franklin Valuline",
+          "variantId": "Base.VanGardener"
+        },
+        {
+          "title": "Van Greenes",
+          "variantId": "Base.VanGreenes"
+        },
+        {
+          "title": "John McCoy Woodworking Franklin Valuline",
+          "variantId": "Base.VanJohnMcCoy"
+        },
+        {
+          "title": "Jones Fabrication Franklin Valuline",
+          "variantId": "Base.VanJonesFabrication"
+        },
+        {
+          "title": "Kerr Homes Franklin Valuline",
+          "variantId": "Base.VanKerrHomes"
+        },
+        {
+          "title": "Knob Creek Gas Franklin Valuline",
+          "variantId": "Base.VanKnobCreekGas"
+        },
+        {
+          "title": "Knox Telecommunications Franklin Valuline",
+          "variantId": "Base.VanKnoxCom"
+        },
+        {
+          "title": "Korshunov's Car Center Franklin Valuline",
+          "variantId": "Base.VanKorshunovs"
+        },
+        {
+          "title": "Louisville Landscaping Franklin Valuline",
+          "variantId": "Base.VanLouisvilleLandscaping"
+        },
+        {
+          "title": "Mail Franklin Valuline",
+          "variantId": "Base.VanMail"
+        },
+        {
+          "title": "McCoy Franklin Valuline",
+          "variantId": "Base.VanMccoy"
+        },
+        {
+          "title": "Mechanic's Franklin Valuline",
+          "variantId": "Base.VanMechanic"
+        },
+        {
+          "title": "Melting Point Metal Franklin Valuline",
+          "variantId": "Base.VanMeltingPointMetal"
+        },
+        {
+          "title": "Metalheads Franklin Valuline",
+          "variantId": "Base.VanMetalheads"
+        },
+        {
+          "title": "Metalworker's Franklin Valuline",
+          "variantId": "Base.VanMetalworker"
+        },
+        {
+          "title": "Michele's Woodshop Franklin Valuline",
+          "variantId": "Base.VanMicheles"
+        },
+        {
+          "title": "Mobile Mechanics Franklin Valuline",
+          "variantId": "Base.VanMobileMechanics"
+        },
+        {
+          "title": "Moore Mechanics Franklin Valuline",
+          "variantId": "Base.VanMooreMechanics"
+        },
+        {
+          "title": "Old Mill Water Company Franklin Valuline",
+          "variantId": "Base.VanOldMill"
+        },
+        {
+          "title": "Van Ovo Farm",
+          "variantId": "Base.VanOvoFarm"
+        },
+        {
+          "title": "Penn S. Ham Construction Franklin Valuline",
+          "variantId": "Base.VanPennSHam"
+        },
+        {
+          "title": "Platt Auto Repair Franklin Valuline",
+          "variantId": "Base.VanPlattAuto"
+        },
+        {
+          "title": "Plugged In Electrics Franklin Valuline",
+          "variantId": "Base.VanPluggedInElectrics"
+        },
+        {
+          "title": "Riverside Fabrication Franklin Valuline",
+          "variantId": "Base.VanRiversideFabrication"
+        },
+        {
+          "title": "Rosewoodworking Franklin Valuline",
+          "variantId": "Base.VanRosewoodworking"
+        },
+        {
+          "title": "Schwab Sheet Metal Franklin Valuline",
+          "variantId": "Base.VanSchwabSheetMetal"
+        },
+        {
+          "title": "Spiffo Van",
+          "variantId": "Base.VanSpiffo"
+        },
+        {
+          "title": "Trey Baines Franklin Valuline",
+          "variantId": "Base.VanTreyBaines"
+        },
+        {
+          "title": "Uncloggers Franklin Valuline",
+          "variantId": "Base.VanUncloggers"
+        },
+        {
+          "title": "Utility Franklin Valuline",
+          "variantId": "Base.VanUtility"
+        },
+        {
+          "title": "WP Carpentry Franklin Valuline",
+          "variantId": "Base.VanWPCarpentry"
+        },
+        {
+          "title": "Van_Blacksmith",
+          "variantId": "Base.Van_Blacksmith"
+        },
+        {
+          "title": "Bug Wipers Franklin Valuline",
+          "variantId": "Base.Van_BugWipers"
+        },
+        {
+          "title": "Van_Charlemange_Beer",
+          "variantId": "Base.Van_Charlemange_Beer"
+        },
+        {
+          "title": "Van_Craft Supplies",
+          "variantId": "Base.Van_CraftSupplies"
+        },
+        {
+          "title": "Van_Glass",
+          "variantId": "Base.Van_Glass"
+        },
+        {
+          "title": "Van_Heritage Tailors",
+          "variantId": "Base.Van_HeritageTailors"
+        },
+        {
+          "title": "Knox Distillery Franklin Valuline",
+          "variantId": "Base.Van_KnoxDisti"
+        },
+        {
+          "title": "Van_Leather",
+          "variantId": "Base.Van_Leather"
+        },
+        {
+          "title": "Lectromax Franklin Valuline",
+          "variantId": "Base.Van_LectroMax"
+        },
+        {
+          "title": "Van_Locksmith",
+          "variantId": "Base.Van_Locksmith"
+        },
+        {
+          "title": "Van_Masonry",
+          "variantId": "Base.Van_Masonry"
+        },
+        {
+          "title": "Mass GenFac Franklin Valuline",
+          "variantId": "Base.Van_MassGenFac"
+        },
+        {
+          "title": "Van_Perfick_Potato",
+          "variantId": "Base.Van_Perfick_Potato"
+        },
+        {
+          "title": "Transit Franklin Valuline",
+          "variantId": "Base.Van_Transit"
+        },
+        {
+          "title": "Volt Mojo Franklin Valuline",
+          "variantId": "Base.Van_VoltMojo"
+        }
+      ]
+    },
+    {
+      "name": "Franklin Valuline 6-Seater",
+      "variants": [
+        {
+          "title": "Franklin Valuline",
+          "variantId": "Base.VanSeats"
+        },
+        {
+          "title": "Airport Franklin Valuline",
+          "variantId": "Base.VanSeatsAirportShuttle"
+        },
+        {
+          "title": "Creature Cruiser",
+          "variantId": "Base.VanSeats_Creature"
+        },
+        {
+          "title": "The Lady Delighter",
+          "variantId": "Base.VanSeats_LadyDelighter"
+        },
+        {
+          "title": "Van Seats_Mural",
+          "variantId": "Base.VanSeats_Mural"
+        },
+        {
+          "title": "Prisoner Transport Franklin Valuline",
+          "variantId": "Base.VanSeats_Prison"
+        },
+        {
+          "title": "Quantum Vessel",
+          "variantId": "Base.VanSeats_Space"
+        },
+        {
+          "title": "Mesmer Wagon",
+          "variantId": "Base.VanSeats_Trippy"
+        },
+        {
+          "title": "Valkyrie's Spear",
+          "variantId": "Base.VanSeats_Valkyrie"
+        }
+      ]
+    },
+    {
+      "name": "LBMW Radio Van",
+      "variants": [
+        {
+          "title": "Van Radio",
+          "variantId": "Base.VanRadio"
+        },
+        {
+          "title": "Triple-N Van",
+          "variantId": "Base.VanRadio_3N"
+        }
+      ]
+    },
+    {
+      "name": "Masterson Horizon",
+      "variants": [
+        {
+          "title": "Small Car02",
+          "variantId": "Base.SmallCar02"
+        }
+      ]
+    },
+    {
+      "name": "Mercia Lang 4000",
+      "variants": [
+        {
+          "title": "Car Luxury",
+          "variantId": "Base.CarLuxury"
+        }
+      ]
+    },
+    {
+      "name": "Race Car",
+      "variants": [
+        {
+          "title": "Race Car12",
+          "variantId": "Base.RaceCar12"
+        },
+        {
+          "title": "Race Car34",
+          "variantId": "Base.RaceCar34"
+        },
+        {
+          "title": "Race Car58",
+          "variantId": "Base.RaceCar58"
+        }
+      ]
+    },
+    {
+      "name": "Trailer",
+      "variants": [
+        {
+          "title": "Trailer",
+          "variantId": "Base.Trailer"
+        },
+        {
+          "title": "Trailer Cover",
+          "variantId": "Base.TrailerCover"
+        },
+        {
+          "title": "Horse trailer",
+          "variantId": "Base.Trailer_Horsebox"
+        },
+        {
+          "title": "Livestock Trailer",
+          "variantId": "Base.Trailer_Livestock"
+        }
+      ]
+    },
+    {
+      "name": "Trailer Advert",
+      "variants": [
+        {
+          "title": "Trailer",
+          "variantId": "Base.TrailerAdvert"
+        }
+      ]
+    }
+  ]
+}
