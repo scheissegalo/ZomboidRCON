@@ -103,6 +103,29 @@ If you upgraded from an older version, custom presets may still reference remove
 
 Preview images are bundled for common vanilla vehicles (about 40 variants). Spawning works for all catalog entries even when no preview PNG exists — the spawn dialog simply leaves the image area empty.
 
+Regenerate preview PNGs from a local Project Zomboid install:
+
+```bash
+python3 -m venv .venv-preview
+source .venv-preview/bin/activate
+pip install -r tools/requirements-preview.txt
+
+python3 tools/generate_vehicle_previews.py "/path/to/projectzomboid" \
+  --catalog ZomboidRCON/Resources/default_vehicles.json \
+  --output ZomboidRCON/Assets/Vehicles \
+  --size 512x320 \
+  --blender /usr/bin/blender
+```
+
+- Reads spawnable variants from `default_vehicles.json` and writes `{variantId}.png` files (for example `Base.CarNormal.png`)
+- Uses PZ mesh `.txt` files plus vehicle shell textures for most variants (via `trimesh` + `pyglet`)
+- Uses **assimp-utils** (`assimp export`) or headless **Blender** for the 5 trailer FBX meshes; other FBX-only variants use the closest chassis `.txt` mesh with the correct livery texture
+- Install `assimp-utils` (Debian/Ubuntu) for trailer previews when Blender FBX import is unavailable
+- Useful flags: `--dry-run`, `--only Base.CarNormal,Base.Van`, `--force`, `--skip-existing`
+- On headless Linux, if rendering fails to open a window, run under `xvfb-run`
+
+Rebuild the app after generating previews so new PNGs are embedded in the executable.
+
 ## Testing against a Build 42 server
 
 After connecting to a B42 RCON server, verify:

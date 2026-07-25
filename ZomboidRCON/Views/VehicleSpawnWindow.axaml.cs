@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using ZomboidRCON.Helpers;
 using ZomboidRCON.Models;
 using ZomboidRCON.Wrapper;
@@ -58,21 +59,7 @@ public partial class VehicleSpawnWindow : Window
         {
             var variant = vehicles[i].Variants![j];
             AppLog.Log("VehicleSpawn", $"Selected variant: VariantID={variant.VariantID}, isStock={variant.isStock}");
-            if (variant.isStock)
-            {
-                try
-                {
-                    var path = $"avares://ZomboidRCON/Assets/Vehicles/{variant.VariantID}.png";
-                    AppLog.Log("VehicleSpawn", $"Loading image from: {path}");
-                    VehicleImage.Source = new Bitmap(path);
-                    AppLog.Log("VehicleSpawn", $"Image loaded successfully, Source={VehicleImage.Source != null}");
-                }
-                catch (Exception ex)
-                {
-                    AppLog.Log("VehicleSpawn", $"Image load FAILED: {ex}");
-                    VehicleImage.Source = null;
-                }
-            }
+            VehicleImage.Source = TryLoadVehiclePreview(variant.VariantID);
             SpawnBtn.IsEnabled = true;
         }
         else
@@ -97,5 +84,26 @@ public partial class VehicleSpawnWindow : Window
             VariantCombo.IsEnabled = true;
         }
         SpawnBtn.IsEnabled = true;
+    }
+
+    private static Bitmap? TryLoadVehiclePreview(string variantId)
+    {
+        var uri = new Uri($"avares://ZomboidRCON/Assets/Vehicles/{variantId}.png");
+        try
+        {
+            if (!AssetLoader.Exists(uri))
+            {
+                AppLog.Log("VehicleSpawn", $"Preview not found: {uri}");
+                return null;
+            }
+
+            AppLog.Log("VehicleSpawn", $"Loading preview from: {uri}");
+            return new Bitmap(AssetLoader.Open(uri));
+        }
+        catch (Exception ex)
+        {
+            AppLog.Log("VehicleSpawn", $"Preview load failed for {variantId}: {ex.Message}");
+            return null;
+        }
     }
 }
