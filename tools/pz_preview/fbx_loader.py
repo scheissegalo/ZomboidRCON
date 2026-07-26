@@ -40,34 +40,42 @@ def load_obj_mesh(obj_path: Path) -> trimesh.Trimesh:
     return loaded
 
 
-def convert_fbx_to_obj(fbx_path: Path, obj_path: Path) -> None:
+def convert_mesh_to_obj(mesh_path: Path, obj_path: Path) -> None:
     assimp = shutil.which("assimp")
     if not assimp:
         raise RuntimeError(
-            "FBX conversion requires the assimp CLI (assimp-utils package) or Blender. "
+            "Mesh conversion requires the assimp CLI (assimp-utils package) or Blender. "
             "Install assimp-utils or use a chassis fallback mesh."
         )
 
     result = subprocess.run(
-        [assimp, "export", str(fbx_path), str(obj_path)],
+        [assimp, "export", str(mesh_path), str(obj_path)],
         capture_output=True,
         text=True,
         check=False,
     )
     if result.returncode != 0 or not obj_path.exists():
         raise RuntimeError(
-            "assimp FBX export failed\n"
-            f"command: {assimp} export {fbx_path} {obj_path}\n"
+            "assimp mesh export failed\n"
+            f"command: {assimp} export {mesh_path} {obj_path}\n"
             f"stdout:\n{result.stdout}\n"
             f"stderr:\n{result.stderr}"
         )
 
 
-def load_fbx_mesh(fbx_path: Path) -> trimesh.Trimesh:
-    with tempfile.TemporaryDirectory(prefix="pz_fbx_") as temp_dir:
-        obj_path = Path(temp_dir) / f"{fbx_path.stem}.obj"
-        convert_fbx_to_obj(fbx_path, obj_path)
+def convert_fbx_to_obj(fbx_path: Path, obj_path: Path) -> None:
+    convert_mesh_to_obj(fbx_path, obj_path)
+
+
+def load_mesh_asset(mesh_path: Path) -> trimesh.Trimesh:
+    with tempfile.TemporaryDirectory(prefix="pz_mesh_") as temp_dir:
+        obj_path = Path(temp_dir) / f"{mesh_path.stem}.obj"
+        convert_mesh_to_obj(mesh_path, obj_path)
         return load_obj_mesh(obj_path)
+
+
+def load_fbx_mesh(fbx_path: Path) -> trimesh.Trimesh:
+    return load_mesh_asset(fbx_path)
 
 
 def apply_transform(

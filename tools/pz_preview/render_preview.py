@@ -1,7 +1,8 @@
-"""Offscreen 3D preview rendering for PZ vehicle meshes."""
+"""Offscreen 3D preview rendering for PZ vehicle and item meshes."""
 
 from __future__ import annotations
 
+import io
 import math
 from pathlib import Path
 
@@ -16,6 +17,9 @@ from pz_preview.pz_mesh import PZMesh, parse_pz_mesh
 DEFAULT_AZIMUTH_DEG = 220.0
 DEFAULT_ELEVATION_DEG = 35.0
 DEFAULT_FOV = (60.0, 45.0)
+ITEM_CAMERA_DISTANCE_FACTOR = 2.0
+DEFAULT_JPEG_BACKGROUND = (32, 32, 36)
+DEFAULT_JPEG_QUALITY = 85
 
 
 def _apply_transform(vertices: np.ndarray, scale: float, offset: tuple[float, float, float]) -> np.ndarray:
@@ -50,11 +54,11 @@ def _camera_rotation(azimuth_deg: float, elevation_deg: float) -> np.ndarray:
     return transformations.euler_matrix(pitch, yaw, 0.0)
 
 
-def _camera_distance(mesh: trimesh.Trimesh) -> float:
+def _camera_distance(mesh: trimesh.Trimesh, *, distance_factor: float = 2.8) -> float:
     bounds = mesh.bounds
     size = bounds[1] - bounds[0]
     radius = float(np.linalg.norm(size)) * 0.5
-    return max(radius * 2.8, 1.0)
+    return max(radius * distance_factor, 1.0)
 
 
 def _configure_scene_camera(
@@ -63,14 +67,35 @@ def _configure_scene_camera(
     *,
     azimuth_deg: float,
     elevation_deg: float,
+    distance_factor: float = 2.8,
 ) -> None:
     scene.camera_transform = scene_cameras.look_at(
         mesh.vertices,
         fov=DEFAULT_FOV,
         rotation=_camera_rotation(azimuth_deg, elevation_deg),
-        distance=_camera_distance(mesh),
+        distance=_camera_distance(mesh, distance_factor=distance_factor),
         center=mesh.centroid,
     )
+
+
+def _save_image_bytes(
+    png_bytes: bytes,
+    output_path: Path,
+    *,
+    image_format: str = "png",
+    jpeg_quality: int = DEFAULT_JPEG_QUALITY,
+    jpeg_background: tuple[int, int, int] = DEFAULT_JPEG_BACKGROUND,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    image = Image.open(io.BytesIO(png_bytes)).convert("RGBA")
+
+    if image_format.lower() in {"jpg", "jpeg"}:
+        background = Image.new("RGB", image.size, jpeg_background)
+        background.paste(image, mask=image.split()[3])
+        background.save(output_path, format="JPEG", quality=jpeg_quality, optimize=True)
+        return
+
+    image.save(output_path, format="PNG")
 
 
 def render_mesh_preview(
@@ -92,27 +117,74 @@ def render_mesh_preview(
     _configure_scene_camera(scene, mesh, azimuth_deg=azimuth_deg, elevation_deg=elevation_deg)
 
     png_bytes = scene.save_image(resolution=list(size), visible=True)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_bytes(png_bytes)
+    _save_image_bytes(png_bytes, output_path)
 
 
 def render_trimesh_preview(
     mesh: trimesh.Trimesh,
-    texture_path: Path,
+    texture_path: Path | None,
     output_path: Path,
     *,
     size: tuple[int, int] = (512, 320),
     azimuth_deg: float = DEFAULT_AZIMUTH_DEG,
     elevation_deg: float = DEFAULT_ELEVATION_DEG,
+    distance_factor: float = 2.8,
+    image_format: str = "png",
+    jpeg_quality: int = DEFAULT_JPEG_QUALITY,
+    jpeg_background: tuple[int, int, int] = DEFAULT_JPEG_BACKGROUND,
 ) -> None:
     textured = mesh.copy()
     uvs = getattr(textured.visual, "uv", None)
-    textured.visual = trimesh.visual.TextureVisuals(
-        uv=uvs,
-        image=_load_texture_image(texture_path),
-    )
+    if texture_path is not None:
+        textured.visual = trimesh.visual.TextureVisuals(
+            uv=uvs,
+            image=_load_texture_image(texture_path),
+        )
+    elif uvs is None:
+        textured.visual = trimesh.visual.ColorVisuals(
+            vertex_colors=np.full((len(textured.vertices), 4), [160, 160, 160, 255], dtype=np.uint8)
+        )
     scene = trimesh.Scene(textured)
-    _configure_scene_camera(scene, textured, azimuth_deg=azimuth_deg, elevation_deg=elevation_deg)
+    _configure_scene_camera(
+        scene,
+        textured,
+        azimuth_deg=azimuth_deg,
+        elevation_deg=elevation_deg,
+        distance_factor=distance_factor,
+    )
     png_bytes = scene.save_image(resolution=list(size), visible=True)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_bytes(png_bytes)
+    _save_image_bytes(
+        png_bytes,
+        output_path,
+        image_format=image_format,
+        jpeg_quality=jpeg_quality,
+        jpeg_background=jpeg_background,
+    )
+
+
+def render_item_preview(
+    mesh_path: Path,
+    texture_path: Path | None,
+    output_path: Path,
+    *,
+    scale: float = 1.0,
+    size: tuple[int, int] = (256, 256),
+    azimuth_deg: float = DEFAULT_AZIMUTH_DEG,
+    elevation_deg: float = DEFAULT_ELEVATION_DEG,
+    image_format: str = "jpeg",
+    jpeg_quality: int = DEFAULT_JPEG_QUALITY,
+) -> None:
+    from pz_preview.fbx_loader import apply_transform, load_mesh_asset
+
+    mesh = apply_transform(load_mesh_asset(mesh_path), scale, (0.0, 0.0, 0.0))
+    render_trimesh_preview(
+        mesh,
+        texture_path,
+        output_path,
+        size=size,
+        azimuth_deg=azimuth_deg,
+        elevation_deg=elevation_deg,
+        distance_factor=ITEM_CAMERA_DISTANCE_FACTOR,
+        image_format=image_format,
+        jpeg_quality=jpeg_quality,
+    )

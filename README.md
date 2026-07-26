@@ -126,6 +126,35 @@ python3 tools/generate_vehicle_previews.py "/path/to/projectzomboid" \
 
 Rebuild the app after generating previews so new PNGs are embedded in the executable.
 
+## Item previews
+
+Preview JPEGs are bundled for catalog items that have resolvable 3D meshes (~4,200 items). The Give Item dialog shows a preview when a JPEG exists; items without a 3D model leave the image area empty.
+
+Regenerate preview JPEGs from a local Project Zomboid install:
+
+```bash
+python3 -m venv .venv-preview
+source .venv-preview/bin/activate
+pip install -r tools/requirements-preview.txt
+
+python3 tools/generate_item_previews.py "/path/to/projectzomboid" \
+  --catalog ZomboidRCON/Resources/pz_items.json \
+  --output ZomboidRCON/Assets/Items \
+  --size 256x256 \
+  --format jpeg --quality 85
+```
+
+- Reads item IDs from `pz_items.json` and writes `{itemId}.jpg` files (for example `Base.Apple.jpg`)
+- Resolves meshes from `media/models_X/` (WorldItems, weapons, held `.X` models) via **assimp-utils**
+- Looks up textures from item model registry entries and weapon/WorldItems texture folders
+- Items with a mesh but no texture render as neutral gray (common for shared clothing ground piles)
+- Useful flags: `--dry-run`, `--only Base.Apple,Base.Pistol`, `--limit 50`, `--force`, `--skip-existing`
+- On headless Linux, if rendering fails to open a window, run under `xvfb-run`
+
+Commit generated JPEGs under `ZomboidRCON/Assets/Items/` before tagging a release so CI embeds them in published builds.
+
+Rebuild the app after generating previews so new JPEGs are embedded in the executable.
+
 ## Testing against a Build 42 server
 
 After connecting to a B42 RCON server, verify:

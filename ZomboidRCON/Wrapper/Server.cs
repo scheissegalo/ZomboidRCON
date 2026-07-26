@@ -269,32 +269,46 @@ namespace ZomboidRCON.Wrapper
             }
         }
 
-        public async Task<bool> GiveItemToPlayer(Player player, string itemID, int count = 1)
+        public async Task<(bool Success, string Message)> GiveItemToPlayer(
+            Player player,
+            string itemID,
+            int count = 1,
+            bool showMessage = true)
         {
             if (!player.isOnline)
             {
-                await ShowMessage("Player is offline, command cannot be executed");
-                return false;
+                const string message = "Player is offline, command cannot be executed";
+                if (showMessage)
+                    await ShowMessage(message);
+                return (false, message);
             }
             try
             {
                 string response = await ExecuteAddItemCommand(player, itemID, count);
-                await ShowMessage(response);
-                return true;
+                if (showMessage)
+                    await ShowMessage(response);
+                return (true, response);
             }
             catch (TaskCanceledException)
             {
-                await ShowMessage("Unable to give item to player. Try reconnecting");
-                return false;
+                const string message = "Unable to give item to player. Try reconnecting";
+                if (showMessage)
+                    await ShowMessage(message);
+                return (false, message);
             }
         }
 
-        public async Task<(int success, int failed)> GiveItemPresetToPlayer(Player player, ItemPreset preset)
+        public async Task<(int success, int failed, string message)> GiveItemPresetToPlayer(
+            Player player,
+            ItemPreset preset,
+            bool showMessage = true)
         {
             if (!player.isOnline)
             {
-                await ShowMessage("Player is offline, command cannot be executed");
-                return (0, preset.Items.Count);
+                const string message = "Player is offline, command cannot be executed";
+                if (showMessage)
+                    await ShowMessage(message);
+                return (0, preset.Items.Count, message);
             }
 
             int success = 0;
@@ -325,13 +339,16 @@ namespace ZomboidRCON.Wrapper
                 string summary = failed == 0
                     ? $"Gave preset '{preset.Name}' to {player.Name} ({success} items)."
                     : $"Gave preset '{preset.Name}' to {player.Name}: {success} succeeded, {failed} failed.";
-                await ShowMessage(summary);
-                return (success, failed);
+                if (showMessage)
+                    await ShowMessage(summary);
+                return (success, failed, summary);
             }
             catch (TaskCanceledException)
             {
-                await ShowMessage("Unable to give preset to player. Try reconnecting");
-                return (success, preset.Items.Count - success);
+                const string message = "Unable to give preset to player. Try reconnecting";
+                if (showMessage)
+                    await ShowMessage(message);
+                return (success, preset.Items.Count - success, message);
             }
         }
 

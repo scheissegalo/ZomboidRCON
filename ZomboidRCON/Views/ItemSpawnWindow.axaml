@@ -2,14 +2,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="ZomboidRCON.Views.ItemSpawnWindow"
         Title="Give an item"
-        Width="520" Height="680"
-        MinWidth="420" MinHeight="560"
+        Width="560" Height="720"
+        MinWidth="460" MinHeight="600"
         WindowStartupLocation="CenterOwner"
         CanResize="True"
         Icon="/Assets/Icons/icon.ico">
 
     <ScrollViewer>
-        <Grid Margin="16" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+        <Grid Margin="16" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
             <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Item Preset" FontWeight="Bold" Margin="0,0,0,4"/>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Preset:" VerticalAlignment="Center" Margin="0,0,8,8"/>
             <ComboBox Grid.Row="1" Grid.Column="1" x:Name="PresetCombo" Margin="0,0,0,8"
@@ -35,18 +35,20 @@
                       SelectionChanged="OnFilterChanged"/>
 
             <TextBlock Grid.Row="8" Grid.ColumnSpan="2" Text="Single Item" FontWeight="Bold" Margin="0,0,0,4"/>
-            <ListBox Grid.Row="9" Grid.ColumnSpan="2" x:Name="ItemsList" Height="140" Margin="0,0,0,8"
+            <Image Grid.Row="9" Grid.ColumnSpan="2" x:Name="ItemPreviewImage" Height="120"
+                   Stretch="Uniform" Margin="0,0,0,8"/>
+            <ListBox Grid.Row="10" Grid.ColumnSpan="2" x:Name="ItemsList" Height="140" Margin="0,0,0,8"
                      SelectionChanged="OnItemSelected"/>
 
-            <TextBlock Grid.Row="10" Grid.Column="0" Text="Item ID:" VerticalAlignment="Center" Margin="0,0,8,8"/>
-            <TextBox Grid.Row="10" Grid.Column="1" x:Name="ItemIDTxt" Margin="0,0,0,8"
+            <TextBlock Grid.Row="11" Grid.Column="0" Text="Item ID:" VerticalAlignment="Center" Margin="0,0,8,8"/>
+            <TextBox Grid.Row="11" Grid.Column="1" x:Name="ItemIDTxt" Margin="0,0,0,8"
                      TextChanged="OnItemIDTxtChanged"/>
 
-            <TextBlock Grid.Row="11" Grid.Column="0" Text="Count:" VerticalAlignment="Center" Margin="0,0,8,8"/>
-            <NumericUpDown Grid.Row="11" Grid.Column="1" x:Name="CountNumeric" Minimum="1" Maximum="100"
+            <TextBlock Grid.Row="12" Grid.Column="0" Text="Count:" VerticalAlignment="Center" Margin="0,0,8,8"/>
+            <NumericUpDown Grid.Row="12" Grid.Column="1" x:Name="CountNumeric" Minimum="1" Maximum="100"
                            Value="1" Margin="0,0,0,8"/>
 
-            <Button Grid.Row="12" Grid.ColumnSpan="2" x:Name="SpawnBtn" Content="Give Item"
+            <Button Grid.Row="13" Grid.ColumnSpan="2" x:Name="SpawnBtn" Content="Give Item"
                     IsEnabled="False" Height="30" Click="OnSpawnClick"/>
         </Grid>
     </ScrollViewer>

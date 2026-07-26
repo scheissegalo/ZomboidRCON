@@ -1,5 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using ZomboidRCON.Helpers;
 using ZomboidRCON.Models;
 using ZomboidRCON.Services;
@@ -75,10 +77,17 @@ public partial class ItemSpawnWindow : Window
         var preset = GetSelectedPreset();
         if (preset == null) return;
 
-        GivePresetBtn.IsEnabled = false;
+        SetControlsEnabled(false);
         try
         {
-            await server.GiveItemPresetToPlayer(player, preset);
+            var (_, failed, message) = await server.GiveItemPresetToPlayer(player, preset, showMessage: false);
+            if (failed == 0)
+            {
+                await CloseAndShowResult(message);
+                return;
+            }
+
+            await DialogHelper.ShowMessage(this, message);
         }
         catch (Exception ex)
         {
@@ -86,7 +95,8 @@ public partial class ItemSpawnWindow : Window
         }
         finally
         {
-            GivePresetBtn.IsEnabled = preset != null;
+            if (IsVisible)
+                SetControlsEnabled(true);
         }
     }
 
@@ -119,10 +129,12 @@ public partial class ItemSpawnWindow : Window
         {
             ItemsList.SelectedIndex = 0;
             ItemIDTxt.Text = results[0].Id;
+            UpdateItemPreview(results[0].Id);
         }
         else if (string.IsNullOrWhiteSpace(ItemIDTxt.Text))
         {
             ItemsList.SelectedIndex = -1;
+            UpdateItemPreview(null);
         }
 
         _suppressSelectionSync = false;
@@ -140,44 +152,92 @@ public partial class ItemSpawnWindow : Window
             return;
 
         if (ItemsList.SelectedItem is Item item)
+        {
             ItemIDTxt.Text = item.Id;
+            UpdateItemPreview(item.Id);
+        }
     }
 
     private void OnItemIDTxtChanged(object? sender, TextChangedEventArgs e)
     {
         SpawnBtn.IsEnabled = !string.IsNullOrWhiteSpace(ItemIDTxt.Text);
+        if (!_suppressSelectionSync)
+            UpdateItemPreview(ItemIDTxt.Text);
+    }
+
+    private void UpdateItemPreview(string? itemId)
+    {
+        ItemPreviewImage.Source = string.IsNullOrWhiteSpace(itemId)
+            ? null
+            : TryLoadItemPreview(itemId.Trim());
+    }
+
+    private static Bitmap? TryLoadItemPreview(string itemId)
+    {
+        var uri = new Uri($"avares://ZomboidRCON/Assets/Items/{itemId}.jpg");
+        try
+        {
+            if (!AssetLoader.Exists(uri))
+            {
+                AppLog.Log("ItemSpawn", $"Preview not found: {uri}");
+                return null;
+            }
+
+            return new Bitmap(AssetLoader.Open(uri));
+        }
+        catch (Exception ex)
+        {
+            AppLog.Log("ItemSpawn", $"Preview load failed for {itemId}: {ex.Message}");
+            return null;
+        }
     }
 
     private async void OnSpawnClick(object? sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(ItemIDTxt.Text)) return;
-        SpawnBtn.IsEnabled = false;
-        ItemIDTxt.IsEnabled = false;
-        CountNumeric.IsEnabled = false;
-        SearchBox.IsEnabled = false;
-        CategoryCombo.IsEnabled = false;
-        ItemsList.IsEnabled = false;
-        PresetCombo.IsEnabled = false;
-        GivePresetBtn.IsEnabled = false;
 
+        SetControlsEnabled(false);
         try
         {
             int count = (int)(CountNumeric.Value ?? 1);
-            bool success = await server.GiveItemToPlayer(player, ItemIDTxt.Text, count);
-            if (success) Close();
+            var (success, message) = await server.GiveItemToPlayer(player, ItemIDTxt.Text, count, showMessage: false);
+            if (success)
+            {
+                await CloseAndShowResult(message);
+                return;
+            }
+
+            await DialogHelper.ShowMessage(this, message);
         }
         catch (Exception ex)
         {
             await DialogHelper.ShowMessage(this, "Error giving item: " + ex.Message);
         }
+        finally
+        {
+            if (IsVisible)
+                SetControlsEnabled(true);
+        }
+    }
 
-        SpawnBtn.IsEnabled = true;
-        ItemIDTxt.IsEnabled = true;
-        CountNumeric.IsEnabled = true;
-        SearchBox.IsEnabled = true;
-        CategoryCombo.IsEnabled = true;
-        ItemsList.IsEnabled = true;
-        PresetCombo.IsEnabled = true;
-        GivePresetBtn.IsEnabled = GetSelectedPreset() != null;
+    private void SetControlsEnabled(bool enabled)
+    {
+        SpawnBtn.IsEnabled = enabled && !string.IsNullOrWhiteSpace(ItemIDTxt.Text);
+        ItemIDTxt.IsEnabled = enabled;
+        CountNumeric.IsEnabled = enabled;
+        SearchBox.IsEnabled = enabled;
+        CategoryCombo.IsEnabled = enabled;
+        ItemsList.IsEnabled = enabled;
+        PresetCombo.IsEnabled = enabled;
+        GivePresetBtn.IsEnabled = enabled && GetSelectedPreset() != null;
+        ManagePresetsBtn.IsEnabled = enabled;
+    }
+
+    private async Task CloseAndShowResult(string message)
+    {
+        var owner = Owner as Window;
+        Close();
+        if (owner != null)
+            await DialogHelper.ShowMessage(owner, message);
     }
 }
