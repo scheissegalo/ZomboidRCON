@@ -17,7 +17,7 @@ from pz_preview.pz_mesh import PZMesh, parse_pz_mesh
 DEFAULT_AZIMUTH_DEG = 220.0
 DEFAULT_ELEVATION_DEG = 35.0
 DEFAULT_FOV = (60.0, 45.0)
-ITEM_CAMERA_DISTANCE_FACTOR = 2.0
+ITEM_CAMERA_PAD = 1.30
 DEFAULT_JPEG_BACKGROUND = (32, 32, 36)
 DEFAULT_JPEG_QUALITY = 85
 
@@ -59,6 +59,40 @@ def _camera_distance(mesh: trimesh.Trimesh, *, distance_factor: float = 2.8) -> 
     size = bounds[1] - bounds[0]
     radius = float(np.linalg.norm(size)) * 0.5
     return max(radius * distance_factor, 1.0)
+
+
+def _bounding_box_corners(bounds: np.ndarray) -> np.ndarray:
+    minimum, maximum = bounds
+    return np.array(
+        [
+            [minimum[0], minimum[1], minimum[2]],
+            [maximum[0], minimum[1], minimum[2]],
+            [maximum[0], maximum[1], minimum[2]],
+            [minimum[0], maximum[1], minimum[2]],
+            [minimum[0], minimum[1], maximum[2]],
+            [maximum[0], minimum[1], maximum[2]],
+            [maximum[0], maximum[1], maximum[2]],
+            [minimum[0], maximum[1], maximum[2]],
+        ],
+        dtype=np.float64,
+    )
+
+
+def _configure_bounds_camera(
+    scene: trimesh.Scene,
+    mesh: trimesh.Trimesh,
+    *,
+    azimuth_deg: float,
+    elevation_deg: float,
+    pad: float = ITEM_CAMERA_PAD,
+) -> None:
+    scene.camera_transform = scene_cameras.look_at(
+        _bounding_box_corners(mesh.bounds),
+        fov=DEFAULT_FOV,
+        rotation=_camera_rotation(azimuth_deg, elevation_deg),
+        center=mesh.centroid,
+        pad=pad,
+    )
 
 
 def _configure_scene_camera(
@@ -129,6 +163,8 @@ def render_trimesh_preview(
     azimuth_deg: float = DEFAULT_AZIMUTH_DEG,
     elevation_deg: float = DEFAULT_ELEVATION_DEG,
     distance_factor: float = 2.8,
+    auto_frame: bool = False,
+    frame_pad: float = ITEM_CAMERA_PAD,
     image_format: str = "png",
     jpeg_quality: int = DEFAULT_JPEG_QUALITY,
     jpeg_background: tuple[int, int, int] = DEFAULT_JPEG_BACKGROUND,
@@ -145,13 +181,22 @@ def render_trimesh_preview(
             vertex_colors=np.full((len(textured.vertices), 4), [160, 160, 160, 255], dtype=np.uint8)
         )
     scene = trimesh.Scene(textured)
-    _configure_scene_camera(
-        scene,
-        textured,
-        azimuth_deg=azimuth_deg,
-        elevation_deg=elevation_deg,
-        distance_factor=distance_factor,
-    )
+    if auto_frame:
+        _configure_bounds_camera(
+            scene,
+            textured,
+            azimuth_deg=azimuth_deg,
+            elevation_deg=elevation_deg,
+            pad=frame_pad,
+        )
+    else:
+        _configure_scene_camera(
+            scene,
+            textured,
+            azimuth_deg=azimuth_deg,
+            elevation_deg=elevation_deg,
+            distance_factor=distance_factor,
+        )
     png_bytes = scene.save_image(resolution=list(size), visible=True)
     _save_image_bytes(
         png_bytes,
@@ -184,7 +229,7 @@ def render_item_preview(
         size=size,
         azimuth_deg=azimuth_deg,
         elevation_deg=elevation_deg,
-        distance_factor=ITEM_CAMERA_DISTANCE_FACTOR,
+        auto_frame=True,
         image_format=image_format,
         jpeg_quality=jpeg_quality,
     )
