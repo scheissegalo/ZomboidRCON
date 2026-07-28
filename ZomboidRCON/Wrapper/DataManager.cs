@@ -25,6 +25,37 @@ namespace ZomboidRCON.Wrapper
                 var col = database.GetCollection<Player>("players");
                 col.EnsureIndex(x => x.Name, true);
             }
+
+            var teleportCol = database.GetCollection<TeleportLocation>("teleport_locations");
+            teleportCol.EnsureIndex(x => x.Name, true);
+        }
+
+        public List<TeleportLocation> GetTeleportLocations()
+        {
+            return database.GetCollection<TeleportLocation>("teleport_locations")
+                .FindAll()
+                .OrderBy(x => x.Name)
+                .ToList();
+        }
+
+        public bool SaveTeleportLocation(TeleportLocation location)
+        {
+            var col = database.GetCollection<TeleportLocation>("teleport_locations");
+            var existing = col.FindOne(x => x.Name == location.Name);
+            if (existing != null && existing.Id != location.Id)
+                return false;
+
+            if (location.Id > 0)
+                col.Update(location);
+            else
+                col.Insert(location);
+
+            return true;
+        }
+
+        public void DeleteTeleportLocation(int id)
+        {
+            database.GetCollection<TeleportLocation>("teleport_locations").Delete(id);
         }
 
         public void AddPlayer(Player player)

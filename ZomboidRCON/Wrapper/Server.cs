@@ -229,6 +229,15 @@ namespace ZomboidRCON.Wrapper
             }
         }
 
+        public List<TeleportLocation> GetTeleportLocations() =>
+            dataManager.GetTeleportLocations();
+
+        public bool SaveTeleportLocation(TeleportLocation location) =>
+            dataManager.SaveTeleportLocation(location);
+
+        public void DeleteTeleportLocation(int id) =>
+            dataManager.DeleteTeleportLocation(id);
+
         public async Task<bool> SpawnVehicleForPlayer(Player player, Variant variant)
         {
             if (!player.isOnline)

@@ -2,12 +2,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="ZomboidRCON.Views.TeleportToCoordinatesWindow"
         Title="Teleport to coordinates"
-        Width="350" Height="220"
+        Width="350" Height="320"
         WindowStartupLocation="CenterOwner"
         CanResize="False"
         Icon="/Assets/Icons/icon.ico">
 
     <StackPanel Margin="16" Spacing="8">
+        <Grid ColumnDefinitions="Auto,*">
+            <TextBlock Grid.Column="0" Text="Saved:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <ComboBox Grid.Column="1" x:Name="LocationCombo" SelectionChanged="OnLocationSelectionChanged"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="Auto,*">
+            <TextBlock Grid.Column="0" Text="Name:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBox Grid.Column="1" x:Name="NameTxt" TextChanged="OnNameChanged"/>
+        </Grid>
+
         <Grid ColumnDefinitions="60,*,40,*,40,*">
             <TextBlock Grid.Column="0" Text="X:" VerticalAlignment="Center"/>
             <TextBox Grid.Column="1" x:Name="XTxt" TextChanged="OnCoordinateChanged"/>
@@ -17,13 +27,21 @@
             <TextBox Grid.Column="5" x:Name="ZTxt" TextChanged="OnCoordinateChanged"/>
         </Grid>
 
-        <TextBlock x:Name="TeleportPreviewLabel" Text="Please fill all required coordinate fields" TextWrapping="Wrap"/>
+        <TextBlock x:Name="TeleportPreviewLabel" Text="Please fill X and Y coordinate fields" TextWrapping="Wrap"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-            <Button x:Name="PreviewBtn" Content="Preview" IsEnabled="False"
-                    Width="80" Height="30" Click="OnPreviewClick"/>
-            <Button x:Name="TeleportBtn" Content="Teleport" IsEnabled="False"
-                    Width="80" Height="30" Click="OnTeleportClick"/>
-        </StackPanel>
+        <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                <Button x:Name="SaveBtn" Content="Save" IsEnabled="False"
+                        Width="70" Height="30" Click="OnSaveClick"/>
+                <Button x:Name="DeleteBtn" Content="Delete" IsEnabled="False"
+                        Width="70" Height="30" Click="OnDeleteClick"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                <Button x:Name="PreviewBtn" Content="Preview" IsEnabled="False"
+                        Width="80" Height="30" Click="OnPreviewClick"/>
+                <Button x:Name="TeleportBtn" Content="Teleport" IsEnabled="False"
+                        Width="80" Height="30" Click="OnTeleportClick"/>
+            </StackPanel>
+        </Grid>
     </StackPanel>
 </Window>
