@@ -6,12 +6,13 @@ Runs on **Windows** and **Linux** — no .NET runtime installation required (sel
 
 ## Features
 
-- **Player Management** — view online players, kick, set access levels (Admin/GM/Moderator/Overseer/None), enable/disable godmode, add to whitelist
+- **Player Management** — view online players, kick, set access levels (Admin/GM/Moderator/Overseer/None), enable/disable godmode, invisible, and noclip, set player password, add to whitelist
 - **Vehicle Spawning** — spawn vehicles from a Build 42 catalog (~157 variants in 20 model groups); preview images where available
 - **Item Spawning** — searchable categorized item picker with profession/survival presets and custom preset editor (~5,100 `Base.*` items)
 - **Teleportation** — teleport players to other players or to coordinates
 - **Experience Management** — add experience to player skills (including B42 crafting perks)
 - **Command Console** — send arbitrary RCON commands to the server (type `help` to list server commands)
+- **Weather Controls** — start/stop rain and storms, stop all weather from the Server Controls menu
 - **Auto-Updater** — checks GitHub releases for updates and downloads the correct platform binary automatically
 - **Persistent Settings** — connection details are saved and reloaded on next launch
 
@@ -163,10 +164,11 @@ After connecting to a B42 RCON server, verify:
 2. Give Item — search for a B42 item (e.g. stone tool, animal product) and spawn it
 3. Give Preset — deliver a profession or survival kit
 4. Spawn Vehicle — try a classic model (e.g. Chevalier Nyala) and a branded livery variant
-5. Teleport, godmode, access level changes, add XP on a B42 perk
-6. Command Console — run `help` and an arbitrary admin command
+5. Teleport, godmode, invisible, noclip, access level changes, add XP on a B42 perk
+6. Server Controls — start/stop rain and weather
+7. Command Console — run `help` and an arbitrary admin command
 
-RCON command syntax is unchanged from Build 41 for the commands this tool uses (`additem`, `addvehicle`, `teleport`, `teleportto`, `setaccesslevel`, `addxp`, `godmode`, etc.). Use the in-app Command Console `help` output on your server if a patch changes command names.
+RCON command syntax for player-targeting admin commands uses quoted usernames (e.g. `godmodeplayer "name" -true`, `invisibleplayer "name" -true`, `noclip "name" -true`, `setpassword "name" "password"`). Other commands this tool uses include `additem`, `addvehicle`, `teleport`, `teleportto`, `setaccesslevel`, `addxp`, `startrain`, `startstorm`, `stoprain`, and `stopweather`. Use the in-app Command Console `help` output on your server if a patch changes command names.
 
 ## Tech Stack
 

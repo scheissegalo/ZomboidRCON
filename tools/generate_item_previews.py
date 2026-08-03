@@ -76,8 +76,10 @@ def resolve_item_preview(
 
 
 def can_render(resolved: ResolvedItemPreview) -> bool:
-    return resolved.mesh_path is not None and not any(
-        issue.startswith("no model field") or issue.startswith("model ") and "not in registry" in issue
+    if resolved.mesh_path is None:
+        return False
+    return not any(
+        issue.startswith("no model field") or ("not in registry" in issue and "fallback" not in issue)
         for issue in resolved.issues
     )
 

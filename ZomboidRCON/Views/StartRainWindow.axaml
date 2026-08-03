@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.StartRainWindow"
+        Title="Start Rain"
+        Width="350" Height="170"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Icon="/Assets/Icons/icon.ico">
+
+    <StackPanel Margin="16" Spacing="8">
+        <TextBlock Text="Optional intensity from 1 to 100. Leave unchecked for server default."
+                   TextWrapping="Wrap"/>
+
+        <CheckBox x:Name="UseIntensityCheck" Content="Specify intensity"/>
+        <NumericUpDown x:Name="IntensityInput" Minimum="1" Maximum="100" Value="50" IsEnabled="False"/>
+
+        <Button x:Name="BtnStartRain" Content="Start Rain" Height="30" Click="OnStartRainClick"/>
+    </StackPanel>
+</Window>

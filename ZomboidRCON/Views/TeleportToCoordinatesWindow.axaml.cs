@@ -31,6 +31,11 @@ public partial class TeleportToCoordinatesWindow : Window
         CheckInputUpdate();
     }
 
+    private void CommitTextInput()
+    {
+        TeleportBtn.Focus();
+    }
+
     private void LoadSavedLocations(int? selectId = null)
     {
         suppressUpdates = true;
@@ -42,18 +47,44 @@ public partial class TeleportToCoordinatesWindow : Window
         foreach (var location in savedLocations)
             LocationCombo.Items.Add(location.Name);
 
+        TeleportLocation? selectedLocation = null;
         if (selectId.HasValue)
         {
             var index = savedLocations.FindIndex(l => l.Id == selectId.Value);
             LocationCombo.SelectedIndex = index >= 0 ? index + 1 : 0;
+            if (index >= 0)
+                selectedLocation = savedLocations[index];
         }
         else
         {
             LocationCombo.SelectedIndex = 0;
         }
 
+        if (selectedLocation != null)
+            ApplyLocationToFields(selectedLocation);
+
         suppressUpdates = false;
         UpdateDeleteButton();
+    }
+
+    private void ApplyLocationToFields(TeleportLocation location)
+    {
+        suppressUpdates = true;
+        NameTxt.Text = location.Name;
+        XTxt.Text = location.X.ToString();
+        YTxt.Text = location.Y.ToString();
+        ZTxt.Text = location.Z.ToString();
+        suppressUpdates = false;
+    }
+
+    private void ApplyLocationToFields(int x, int y, int z, string name)
+    {
+        suppressUpdates = true;
+        NameTxt.Text = name;
+        XTxt.Text = x.ToString();
+        YTxt.Text = y.ToString();
+        ZTxt.Text = z.ToString();
+        suppressUpdates = false;
     }
 
     private TeleportLocation? GetSelectedLocation()
@@ -83,7 +114,15 @@ public partial class TeleportToCoordinatesWindow : Window
     private bool HasValidCoordinates(out int x, out int y, out int z)
     {
         x = y = z = 0;
-        return IsInt(XTxt.Text ?? "") && IsInt(YTxt.Text ?? "") && TryParseZ(ZTxt.Text ?? "", out z);
+        return int.TryParse(XTxt.Text ?? "", out x)
+            && int.TryParse(YTxt.Text ?? "", out y)
+            && TryParseZ(ZTxt.Text ?? "", out z);
+    }
+
+    private bool TryGetTeleportCoordinates(out int x, out int y, out int z)
+    {
+        CommitTextInput();
+        return HasValidCoordinates(out x, out y, out z);
     }
 
     private void CheckInputUpdate()
@@ -117,19 +156,13 @@ public partial class TeleportToCoordinatesWindow : Window
             return;
 
         var location = GetSelectedLocation();
-        suppressUpdates = true;
         if (location == null)
         {
             CheckInputUpdate();
-            suppressUpdates = false;
             return;
         }
 
-        NameTxt.Text = location.Name;
-        XTxt.Text = location.X.ToString();
-        YTxt.Text = location.Y.ToString();
-        ZTxt.Text = location.Z.ToString();
-        suppressUpdates = false;
+        ApplyLocationToFields(location);
         CheckInputUpdate();
     }
 
@@ -158,6 +191,7 @@ public partial class TeleportToCoordinatesWindow : Window
 
     private void OnPreviewClick(object? sender, RoutedEventArgs e)
     {
+        CommitTextInput();
         string x = XTxt.Text ?? "";
         string y = YTxt.Text ?? "";
         if (IsInt(x) && IsInt(y))
@@ -166,6 +200,7 @@ public partial class TeleportToCoordinatesWindow : Window
 
     private async void OnSaveClick(object? sender, RoutedEventArgs e)
     {
+        CommitTextInput();
         if (!HasValidCoordinates(out int x, out int y, out int z))
             return;
 
@@ -183,6 +218,8 @@ public partial class TeleportToCoordinatesWindow : Window
             Z = z
         };
 
+        AppLog.Log("TeleportToCoordinates", $"Saving location '{name}' at {x},{y},{z}");
+
         if (!server.SaveTeleportLocation(location))
         {
             await DialogHelper.ShowMessage(this, "A location with that name already exists.");
@@ -190,6 +227,11 @@ public partial class TeleportToCoordinatesWindow : Window
         }
 
         var saved = server.GetTeleportLocations().FirstOrDefault(l => l.Name == name);
+        AppLog.Log("TeleportToCoordinates", saved == null
+            ? "Save succeeded but location could not be reloaded"
+            : $"Saved location reloaded as {saved.X},{saved.Y},{saved.Z} (id={saved.Id})");
+
+        ApplyLocationToFields(x, y, z, name);
         LoadSavedLocations(saved?.Id);
         CheckInputUpdate();
     }
@@ -223,8 +265,9 @@ public partial class TeleportToCoordinatesWindow : Window
         YTxt.IsEnabled = false;
         ZTxt.IsEnabled = false;
 
-        if (HasValidCoordinates(out int x, out int y, out int z))
+        if (TryGetTeleportCoordinates(out int x, out int y, out int z))
         {
+            AppLog.Log("TeleportToCoordinates", $"Teleporting '{player.Name}' to {x},{y},{z}");
             bool rt = await server.TeleportPlayerToCoordinates(player, x, y, z);
             if (rt) Close();
         }

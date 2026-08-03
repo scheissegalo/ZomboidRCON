@@ -266,6 +266,47 @@ public partial class MainWindow : Window
         await RefreshPlayers();
     }
 
+    private async void OnEnableInvisible(object? sender, RoutedEventArgs e)
+    {
+        var player = await GetSelectedPlayer();
+        if (player == null || server == null) return;
+        server.ChangePlayerInvisibleStatus(player, true);
+        await RefreshPlayers();
+    }
+
+    private async void OnDisableInvisible(object? sender, RoutedEventArgs e)
+    {
+        var player = await GetSelectedPlayer();
+        if (player == null || server == null) return;
+        server.ChangePlayerInvisibleStatus(player, false);
+        await RefreshPlayers();
+    }
+
+    private async void OnEnableNoclip(object? sender, RoutedEventArgs e)
+    {
+        var player = await GetSelectedPlayer();
+        if (player == null || server == null) return;
+        server.ChangePlayerNoclipStatus(player, true);
+        await RefreshPlayers();
+    }
+
+    private async void OnDisableNoclip(object? sender, RoutedEventArgs e)
+    {
+        var player = await GetSelectedPlayer();
+        if (player == null || server == null) return;
+        server.ChangePlayerNoclipStatus(player, false);
+        await RefreshPlayers();
+    }
+
+    private async void OnSetPassword(object? sender, RoutedEventArgs e)
+    {
+        var player = await GetSelectedPlayer();
+        if (player == null || server == null) return;
+        var dialog = new SetPasswordWindow(player, server);
+        await dialog.ShowDialog(this);
+        await RefreshPlayers();
+    }
+
     private async void OnSpawnVehicle(object? sender, RoutedEventArgs e)
     {
         var player = await GetSelectedPlayer();
@@ -342,6 +383,32 @@ public partial class MainWindow : Window
         if (server == null) return;
         string result = await server.ReloadOptions();
         await DialogHelper.ShowMessage(this, result, "Reload Options");
+    }
+
+    private async void OnStartRainClick(object? sender, RoutedEventArgs e)
+    {
+        if (server == null) return;
+        var dialog = new StartRainWindow(server);
+        await dialog.ShowDialog(this);
+    }
+
+    private async void OnStartStormClick(object? sender, RoutedEventArgs e)
+    {
+        if (server == null) return;
+        var dialog = new StartStormWindow(server);
+        await dialog.ShowDialog(this);
+    }
+
+    private async void OnStopRainClick(object? sender, RoutedEventArgs e)
+    {
+        if (server == null) return;
+        await server.StopRain();
+    }
+
+    private async void OnStopWeatherClick(object? sender, RoutedEventArgs e)
+    {
+        if (server == null) return;
+        await server.StopWeather();
     }
 
     private void OnMapClick(object? sender, RoutedEventArgs e)

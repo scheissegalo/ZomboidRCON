@@ -8,6 +8,13 @@ from pathlib import Path
 
 MESH_EXTENSIONS = (".FBX", ".fbx", ".X", ".x")
 
+# Inventory icon names that map to a shared WorldItems mesh (color variants, etc.).
+ICON_MESH_ALIASES: dict[str, str] = {
+    "Generator2": "Generator",
+    "Generator3": "Generator",
+    "Generator4": "Generator",
+}
+
 
 class ItemMeshKind(str, Enum):
     FBX = "fbx"
@@ -52,4 +59,22 @@ class ItemMeshResolver:
                 kind = ItemMeshKind.X if candidate.suffix.lower() == ".x" else ItemMeshKind.FBX
                 return ResolvedItemMesh(kind=kind, path=candidate, mesh_ref=mesh_ref)
 
+        return None
+
+    def resolve_icon_fallback(self, icon: str | None, item_name: str | None) -> ResolvedItemMesh | None:
+        mesh_names: list[str] = []
+        if icon:
+            mesh_names.append(ICON_MESH_ALIASES.get(icon, icon))
+        if item_name:
+            mesh_names.append(item_name)
+
+        seen: set[str] = set()
+        for name in mesh_names:
+            if not name or name in seen:
+                continue
+            seen.add(name)
+            for mesh_ref in (f"WorldItems/{name}", name):
+                resolved = self.resolve(mesh_ref)
+                if resolved:
+                    return resolved
         return None

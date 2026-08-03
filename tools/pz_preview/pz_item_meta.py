@@ -17,6 +17,10 @@ WORLD_STATIC_MODEL_RE = re.compile(r"WorldStaticModel\s*=\s*([^,\n;]+)")
 STATIC_MODEL_RE = re.compile(r"StaticModel\s*=\s*([^,\n;]+)")
 WEAPON_SPRITE_RE = re.compile(r"WeaponSprite\s*=\s*([^,\n;]+)")
 WEAPON_SPRITES_BY_INDEX_RE = re.compile(r"WeaponSpritesByIndex\s*=\s*([^,\n;]+)")
+ICON_RE = re.compile(r"Icon\s*=\s*([^,\n;]+)")
+
+# Default scale for meshes resolved via Icon/item-name fallback (not in model registry).
+FALLBACK_MESH_SCALE = 0.4
 
 
 @dataclass
@@ -33,6 +37,7 @@ class ItemRenderSpec:
     mesh_ref: str | None
     texture_ref: str | None
     scale: float
+    icon: str | None = None
     issues: list[str] = field(default_factory=list)
 
 
@@ -92,9 +97,14 @@ def _model_key_from_block(block: str) -> str | None:
     return None
 
 
-def parse_item_model_keys(pz_root: Path, item_ids: set[str]) -> dict[str, str]:
+def _icon_from_block(block: str) -> str | None:
+    match = ICON_RE.search(block)
+    return _first_token(match.group(1)) if match else None
+
+
+def parse_item_script_fields(pz_root: Path, item_ids: set[str]) -> dict[str, dict[str, str | None]]:
     scripts_dir = pz_root / "media" / "scripts"
-    model_keys: dict[str, str] = {}
+    fields_by_id: dict[str, dict[str, str | None]] = {}
 
     for script_file in sorted(scripts_dir.rglob("*.txt")):
         if script_file.name.startswith("models_"):
@@ -123,11 +133,21 @@ def parse_item_model_keys(pz_root: Path, item_ids: set[str]) -> dict[str, str]:
             if full_id not in item_ids:
                 continue
 
-            model_key = _model_key_from_block(block)
-            if model_key:
-                model_keys[full_id] = model_key
+            fields_by_id[full_id] = {
+                "model_key": _model_key_from_block(block),
+                "icon": _icon_from_block(block),
+                "item_name": item_name,
+            }
 
-    return model_keys
+    return fields_by_id
+
+
+def parse_item_model_keys(pz_root: Path, item_ids: set[str]) -> dict[str, str]:
+    return {
+        item_id: fields["model_key"]
+        for item_id, fields in parse_item_script_fields(pz_root, item_ids).items()
+        if fields.get("model_key")
+    }
 
 
 def load_catalog_item_ids(catalog_path: Path) -> list[str]:
@@ -141,6 +161,8 @@ def load_catalog_item_ids(catalog_path: Path) -> list[str]:
 
 
 def collect_item_render_specs(pz_root: Path, catalog_path: Path) -> list[ItemRenderSpec]:
+    from pz_preview.item_mesh_resolver import ItemMeshResolver
+
     scripts_dir = pz_root / "media" / "scripts"
     if not scripts_dir.exists():
         raise FileNotFoundError(f"Scripts directory not found: {scripts_dir}")
@@ -148,13 +170,41 @@ def collect_item_render_specs(pz_root: Path, catalog_path: Path) -> list[ItemRen
     item_ids = load_catalog_item_ids(catalog_path)
     item_id_set = set(item_ids)
     registry = build_model_registry(scripts_dir)
-    model_keys = parse_item_model_keys(pz_root, item_id_set)
+    script_fields = parse_item_script_fields(pz_root, item_id_set)
+    mesh_resolver = ItemMeshResolver(pz_root)
 
     specs: list[ItemRenderSpec] = []
     for item_id in item_ids:
         issues: list[str] = []
-        model_key = model_keys.get(item_id)
+        fields = script_fields.get(item_id, {})
+        model_key = fields.get("model_key")
+        icon = fields.get("icon")
+        item_name = fields.get("item_name")
+        if isinstance(item_name, str):
+            short_name = item_name
+        else:
+            short_name = item_id.split(".", 1)[-1]
+
         if not model_key:
+            fallback = mesh_resolver.resolve_icon_fallback(
+                icon if isinstance(icon, str) else None,
+                short_name,
+            )
+            if fallback:
+                texture_ref = f"WorldItems/{Path(fallback.mesh_ref).name}"
+                specs.append(
+                    ItemRenderSpec(
+                        item_id=item_id,
+                        model_key=None,
+                        mesh_ref=fallback.mesh_ref,
+                        texture_ref=texture_ref,
+                        scale=FALLBACK_MESH_SCALE,
+                        icon=icon if isinstance(icon, str) else None,
+                        issues=[f"icon fallback via {fallback.mesh_ref}"],
+                    )
+                )
+                continue
+
             issues.append("no model field")
             specs.append(
                 ItemRenderSpec(
@@ -163,6 +213,7 @@ def collect_item_render_specs(pz_root: Path, catalog_path: Path) -> list[ItemRen
                     mesh_ref=None,
                     texture_ref=None,
                     scale=1.0,
+                    icon=icon if isinstance(icon, str) else None,
                     issues=issues,
                 )
             )
@@ -178,6 +229,7 @@ def collect_item_render_specs(pz_root: Path, catalog_path: Path) -> list[ItemRen
                     mesh_ref=None,
                     texture_ref=None,
                     scale=1.0,
+                    icon=icon if isinstance(icon, str) else None,
                     issues=issues,
                 )
             )
@@ -193,6 +245,7 @@ def collect_item_render_specs(pz_root: Path, catalog_path: Path) -> list[ItemRen
                 mesh_ref=entry.mesh,
                 texture_ref=entry.texture,
                 scale=entry.scale,
+                icon=icon if isinstance(icon, str) else None,
                 issues=issues,
             )
         )

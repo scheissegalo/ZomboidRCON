@@ -16,6 +16,11 @@
                 <MenuItem Header="_Item Presets..." Click="OnItemPresetsClick"/>
                 <MenuItem Header="Show _Options" Click="OnShowOptionsClick"/>
                 <MenuItem Header="_Reload Options" Click="OnReloadOptionsClick"/>
+                <Separator/>
+                <MenuItem Header="Start _Rain..." Click="OnStartRainClick"/>
+                <MenuItem Header="Start _Storm..." Click="OnStartStormClick"/>
+                <MenuItem Header="Stop _Rain" Click="OnStopRainClick"/>
+                <MenuItem Header="Stop _Weather" Click="OnStopWeatherClick"/>
             </MenuItem>
             <MenuItem Header="_Database Tools" IsEnabled="False">
                 <MenuItem Header="_Create Items Pack" IsEnabled="False"/>
@@ -87,8 +92,19 @@
                         <MenuItem Header="Admin" Click="OnSetAccessAdmin"/>
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="Enable Godmode" Click="OnEnableGodmode"/>
-                    <MenuItem Header="Disable Godmode" Click="OnDisableGodmode"/>
+                    <MenuItem Header="Godmode">
+                        <MenuItem Header="Enable" Click="OnEnableGodmode"/>
+                        <MenuItem Header="Disable" Click="OnDisableGodmode"/>
+                    </MenuItem>
+                    <MenuItem Header="Invisible">
+                        <MenuItem Header="Enable" Click="OnEnableInvisible"/>
+                        <MenuItem Header="Disable" Click="OnDisableInvisible"/>
+                    </MenuItem>
+                    <MenuItem Header="Noclip">
+                        <MenuItem Header="Enable" Click="OnEnableNoclip"/>
+                        <MenuItem Header="Disable" Click="OnDisableNoclip"/>
+                    </MenuItem>
+                    <MenuItem Header="Set Password..." Click="OnSetPassword"/>
                     <Separator/>
                     <MenuItem Header="Spawn Vehicle" Click="OnSpawnVehicle"/>
                     <MenuItem Header="Give Item" Click="OnGiveItem"/>

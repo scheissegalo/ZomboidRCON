@@ -139,13 +139,127 @@ namespace ZomboidRCON.Wrapper
             }
             try
             {
-                string response = await client.ExecuteCommandAsync("godmode " + player.Name + (enable ? " -true" : " -false"));
+                string command = $"godmodeplayer \"{player.Name}\" {(enable ? "-true" : "-false")}";
+                string response = await client.ExecuteCommandAsync(command);
                 player.GodmodeEnabled = enable;
                 await ShowMessage(response);
             }
             catch (TaskCanceledException)
             {
                 await ShowMessage("Unable change godmod on player. Try reconnecting");
+            }
+        }
+
+        public async void ChangePlayerInvisibleStatus(Player player, bool enable)
+        {
+            if (!player.isOnline)
+            {
+                await ShowMessage("Player is offline, command cannot be executed");
+                return;
+            }
+            try
+            {
+                string command = $"invisibleplayer \"{player.Name}\" {(enable ? "-true" : "-false")}";
+                string response = await client.ExecuteCommandAsync(command);
+                await ShowMessage(response);
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to change invisible status on player. Try reconnecting");
+            }
+        }
+
+        public async void ChangePlayerNoclipStatus(Player player, bool enable)
+        {
+            if (!player.isOnline)
+            {
+                await ShowMessage("Player is offline, command cannot be executed");
+                return;
+            }
+            try
+            {
+                string command = $"noclip \"{player.Name}\" {(enable ? "-true" : "-false")}";
+                string response = await client.ExecuteCommandAsync(command);
+                await ShowMessage(response);
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to change noclip status on player. Try reconnecting");
+            }
+        }
+
+        public async Task<bool> SetPlayerPassword(Player player, string newPassword)
+        {
+            if (!player.isOnline)
+            {
+                await ShowMessage("Player is offline, command cannot be executed");
+                return false;
+            }
+            try
+            {
+                string command = $"setpassword \"{player.Name}\" \"{newPassword}\"";
+                string response = await client.ExecuteCommandAsync(command);
+                await ShowMessage(response);
+                return true;
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to set player password. Try reconnecting");
+                return false;
+            }
+        }
+
+        public async Task StartRain(int? intensity)
+        {
+            try
+            {
+                string command = intensity.HasValue ? $"startrain \"{intensity.Value}\"" : "startrain";
+                string response = await client.ExecuteCommandAsync(command);
+                await ShowMessage(response);
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to start rain. Try reconnecting");
+            }
+        }
+
+        public async Task StartStorm(int? durationHours)
+        {
+            try
+            {
+                string command = durationHours.HasValue ? $"startstorm \"{durationHours.Value}\"" : "startstorm";
+                string response = await client.ExecuteCommandAsync(command);
+                await ShowMessage(response);
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to start storm. Try reconnecting");
+            }
+        }
+
+        public async Task StopRain()
+        {
+            try
+            {
+                string response = await client.ExecuteCommandAsync("stoprain");
+                await ShowMessage(response);
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to stop rain. Try reconnecting");
+            }
+        }
+
+        public async Task StopWeather()
+        {
+            try
+            {
+                string response = await client.ExecuteCommandAsync("stopweather");
+                await ShowMessage(response);
+            }
+            catch (TaskCanceledException)
+            {
+                await ShowMessage("Unable to stop weather. Try reconnecting");
             }
         }
 
@@ -218,7 +332,9 @@ namespace ZomboidRCON.Wrapper
             }
             try
             {
-                string response = await client.ExecuteCommandAsync("teleportto " + player.Name + " " + x + "," + y + "," + z);
+                string command = "teleportto " + player.Name + " " + x + "," + y + "," + z;
+                AppLog.Log("Server", "Executing RCON command: " + command);
+                string response = await client.ExecuteCommandAsync(command);
                 await ShowMessage(response);
                 return true;
             }

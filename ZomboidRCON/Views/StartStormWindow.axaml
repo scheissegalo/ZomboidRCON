@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ZomboidRCON.Views.StartStormWindow"
+        Title="Start Storm"
+        Width="350" Height="170"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Icon="/Assets/Icons/icon.ico">
+
+    <StackPanel Margin="16" Spacing="8">
+        <TextBlock Text="Optional duration in game hours. Leave unchecked for server default."
+                   TextWrapping="Wrap"/>
+
+        <CheckBox x:Name="UseDurationCheck" Content="Specify duration"/>
+        <NumericUpDown x:Name="DurationInput" Minimum="1" Maximum="999" Value="24" IsEnabled="False"/>
+
+        <Button x:Name="BtnStartStorm" Content="Start Storm" Height="30" Click="OnStartStormClick"/>
+    </StackPanel>
+</Window>

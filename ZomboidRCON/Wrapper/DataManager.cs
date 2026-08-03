@@ -43,7 +43,12 @@ namespace ZomboidRCON.Wrapper
             var col = database.GetCollection<TeleportLocation>("teleport_locations");
             var existing = col.FindOne(x => x.Name == location.Name);
             if (existing != null && existing.Id != location.Id)
-                return false;
+            {
+                if (location.Id == 0)
+                    location.Id = existing.Id;
+                else
+                    return false;
+            }
 
             if (location.Id > 0)
                 col.Update(location);
