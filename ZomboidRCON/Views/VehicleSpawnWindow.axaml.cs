@@ -13,6 +13,7 @@ public partial class VehicleSpawnWindow : Window
     private List<Vehicle> vehicles;
     private Player player;
     private Server server;
+    private bool _suppressSelectionSync;
 
     public VehicleSpawnWindow(Player player, Server server)
     {
@@ -49,6 +50,11 @@ public partial class VehicleSpawnWindow : Window
                 VariantCombo.IsEnabled = true;
             }
         }
+        else if (string.IsNullOrWhiteSpace(VehicleIDTxt.Text))
+        {
+            SpawnBtn.IsEnabled = false;
+            VehicleImage.Source = null;
+        }
     }
 
     private void OnVariantComboChanged(object? sender, SelectionChangedEventArgs e)
@@ -59,31 +65,56 @@ public partial class VehicleSpawnWindow : Window
         {
             var variant = vehicles[i].Variants![j];
             AppLog.Log("VehicleSpawn", $"Selected variant: VariantID={variant.VariantID}, isStock={variant.isStock}");
-            VehicleImage.Source = TryLoadVehiclePreview(variant.VariantID);
-            SpawnBtn.IsEnabled = true;
+            _suppressSelectionSync = true;
+            VehicleIDTxt.Text = variant.VariantID;
+            _suppressSelectionSync = false;
+            UpdateVehiclePreview(variant.VariantID);
+            SpawnBtn.IsEnabled = !string.IsNullOrWhiteSpace(VehicleIDTxt.Text);
         }
-        else
+        else if (string.IsNullOrWhiteSpace(VehicleIDTxt.Text))
         {
             SpawnBtn.IsEnabled = false;
             VehicleImage.Source = null;
         }
     }
 
+    private void OnVehicleIDTxtChanged(object? sender, TextChangedEventArgs e)
+    {
+        SpawnBtn.IsEnabled = !string.IsNullOrWhiteSpace(VehicleIDTxt.Text);
+        if (!_suppressSelectionSync)
+            UpdateVehiclePreview(VehicleIDTxt.Text);
+    }
+
+    private void UpdateVehiclePreview(string? vehicleId)
+    {
+        VehicleImage.Source = string.IsNullOrWhiteSpace(vehicleId)
+            ? null
+            : TryLoadVehiclePreview(vehicleId.Trim());
+    }
+
     private async void OnSpawnClick(object? sender, RoutedEventArgs e)
     {
-        SpawnBtn.IsEnabled = false;
-        int i = VehiclesCombo.SelectedIndex;
-        int j = VariantCombo.SelectedIndex;
-        if (i >= 0 && j >= 0 && vehicles[i].Variants != null && j < vehicles[i].Variants!.Length)
+        if (string.IsNullOrWhiteSpace(VehicleIDTxt.Text)) return;
+
+        SetControlsEnabled(false);
+        try
         {
-            VehiclesCombo.IsEnabled = false;
-            VariantCombo.IsEnabled = false;
-            bool rt = await server.SpawnVehicleForPlayer(player, vehicles[i].Variants![j]);
+            bool rt = await server.SpawnVehicleForPlayer(player, VehicleIDTxt.Text.Trim());
             if (rt) Close();
-            VehiclesCombo.IsEnabled = true;
-            VariantCombo.IsEnabled = true;
         }
-        SpawnBtn.IsEnabled = true;
+        finally
+        {
+            if (IsVisible)
+                SetControlsEnabled(true);
+        }
+    }
+
+    private void SetControlsEnabled(bool enabled)
+    {
+        SpawnBtn.IsEnabled = enabled && !string.IsNullOrWhiteSpace(VehicleIDTxt.Text);
+        VehicleIDTxt.IsEnabled = enabled;
+        VehiclesCombo.IsEnabled = enabled;
+        VariantCombo.IsEnabled = enabled && VariantCombo.Items.Count > 0;
     }
 
     private static Bitmap? TryLoadVehiclePreview(string variantId)

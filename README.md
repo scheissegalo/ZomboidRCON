@@ -41,11 +41,15 @@ No .NET runtime or additional dependencies needed — everything is bundled.
 
 #### Main window:
 
-![Main window](https://i.ibb.co/hsPj4hj/s1.png "Main window")
+![Main window](https://i.ibb.co/99z2Kz3L/Screenshot-20260803-174746.png "Main window")
+
+#### Spawn Items:
+
+![Spawn Items](https://i.ibb.co/nsBymM0c/Screenshot-20260803-174832.png "Spawn Items")
 
 #### Vehicle spawning:
 
-![Spawn Vehicle](https://i.ibb.co/kGR2WLW/s2.png "Vehicle spawning")
+![Spawn Vehicle](https://i.ibb.co/9H22Bt1p/Screenshot-20260803-174906.png "Vehicle spawning")
 
 ## Building from Source
 
